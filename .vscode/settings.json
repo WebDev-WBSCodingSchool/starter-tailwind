@@ -1,0 +1,125 @@
+{
+  // Inline suggestion is off in this folder, and it is off on purpose.
+  //
+  // The JS in this project is yours to type. Ghost text finishing your fetch call
+  // for you is the one form of help that skips the part you are here to learn, and
+  // unlike the chat agent it arrives without being asked.
+  //
+  // This file is read-only, and the agent is refused writes to it outright —
+  // otherwise one Edit setting `editor.inlineSuggest.enabled: true` hands back
+  // everything the rest of this file takes away, and hands it back through the one
+  // surface that arrives without being asked.
+  //
+  // You can still get past it: `files.readonlyExclude`, or any editor that is not
+  // this one. That is on purpose and it is the deal the whole harness runs on —
+  // not "you can't", but "it's visible". Whichever way you go about it, the change
+  // is committed and it is in your PR with your name on it.
+
+  // ---------- ENFORCEMENT ----------
+
+  // Broadest lever. Hides VS Code's built-in AI surfaces (chat + inline
+  // suggestions) AND disables the Copilot extensions, for this folder only.
+  "chat.disableAIFeatures": true,
+
+  // Provider-agnostic: turns off the editor's automatic ghost-text UI for ANY
+  // inline-completion provider, not just Copilot. The manual trigger command
+  // still exists — this is a contract, not a cage.
+  "editor.inlineSuggest.enabled": false,
+
+  // Copilot's per-language switch. Languages are enumerated on purpose:
+  // object-valued settings MERGE across scopes, so "*": false on its own would
+  // lose to a user-level "javascript": true.
+  "github.copilot.enable": {
+    "*": false,
+    "javascript": false,
+    "javascriptreact": false,
+    "typescript": false,
+    "typescriptreact": false,
+    "vue": false,
+    "svelte": false,
+    "html": false,
+    "css": false,
+    "json": false,
+    "jsonc": false,
+    "markdown": false,
+    "plaintext": false,
+    "scminput": false
+  },
+
+  // Next edit suggestions are a separate surface from ghost text and default to
+  // on. Easy to miss.
+  "github.copilot.nextEditSuggestions.enabled": false,
+
+  // Language-specific WORKSPACE settings, which outrank language-specific USER
+  // settings. Without these, a "[javascript]" (or "[typescriptreact]", etc.)
+  // block in personal settings silently re-enables ghost text with no repo diff
+  // at all. This block is what closes the one override that would otherwise
+  // leave no trace — kept in step with every language listed in
+  // "github.copilot.enable" above, including the frontend frameworks this
+  // assignment does not use, so the next assignment that does is covered too.
+  "[javascript]": { "editor.inlineSuggest.enabled": false },
+  "[javascriptreact]": { "editor.inlineSuggest.enabled": false },
+  "[typescript]": { "editor.inlineSuggest.enabled": false },
+  "[typescriptreact]": { "editor.inlineSuggest.enabled": false },
+  "[vue]": { "editor.inlineSuggest.enabled": false },
+  "[svelte]": { "editor.inlineSuggest.enabled": false },
+  "[html]": { "editor.inlineSuggest.enabled": false },
+  "[css]": { "editor.inlineSuggest.enabled": false },
+  "[json]": { "editor.inlineSuggest.enabled": false },
+  "[jsonc]": { "editor.inlineSuggest.enabled": false },
+  "[markdown]": { "editor.inlineSuggest.enabled": false },
+
+  // Third-party. Verified against Tabnine's own package.json: no declared scope,
+  // so the default `window` scope applies and it is workspace-settable.
+  "tabnine.disableFileRegex": [".*"],
+
+  // ---------- THE BRIEF ----------
+
+  // README.md is the requirements and CLAUDE.md imports them. Opening either in
+  // this folder gives you a read-only editor: the buffer refuses keystrokes and
+  // the tab says so. This is the *student-facing* half of the lock — the half
+  // that stops an absent-minded edit to the thing everyone is working from.
+  //
+  // The half that binds the agent is elsewhere and is not cosmetic: `canonical`
+  // in .harness/config.json, enforced by both hooks and by permissions.deny.
+  //
+  // This setting is an editor affordance, nothing more. It does not stop `echo >
+  // README.md`, it does not survive opening the file in another editor, and you
+  // can turn it off in two lines. Same deal as everything else here: it is not a
+  // cage, it is a sign, and the sign is committed.
+  //
+  // `.vscode/**` includes this file, which is deliberate and has one consequence
+  // worth knowing before it confuses you: VS Code's Settings UI writes here, so
+  // changing a WORKSPACE setting through the UI will now fail, and an extension
+  // that offers to "set this as your default formatter for this folder" will fail
+  // the same way. USER settings are unaffected — those live outside the repo.
+  // `.claude/skills/**` is here for the same reason `.claude/hooks/**` is: the
+  // skill is the script the agent follows when it refuses you, so editing it
+  // keeps the gate and drops the tutoring. The agent is already refused it
+  // outright (`neverWritable` in .harness/config.json); this is the student-facing
+  // half. If a later assignment is *about* writing skills, `writableExceptions`
+  // opens the agent side and this line comes out.
+  //
+  // AGENTS.md and its two pointer files are the same rule written for the agents
+  // that are not Claude Code. They are locked for a reason worth stating: the one
+  // agent that IS enforced here must not be able to edit the instructions aimed at
+  // its replacements.
+  "files.readonlyInclude": {
+    "README.md": true,
+    "CLAUDE.md": true,
+    "AGENTS.md": true,
+    "GEMINI.md": true,
+    ".github/copilot-instructions.md": true,
+    ".harness/**": true,
+    ".claude/hooks/**": true,
+    ".claude/skills/**": true,
+    ".claude/settings.json": true,
+    ".vscode/**": true
+  },
+
+  // ---------- SIGNALLING ----------
+
+  // Left at the default so you still get the ESLint / Prettier / Claude Code
+  // recommendation prompt on first open.
+  "extensions.ignoreRecommendations": false
+}

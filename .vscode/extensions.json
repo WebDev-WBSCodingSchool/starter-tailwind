@@ -1,0 +1,19 @@
+{
+  "recommendations": [
+    "anthropic.claude-code",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ],
+
+  // Despite the name, this does NOT disable, uninstall or gate an extension you
+  // already have — VS Code has no committed file that can. It only stops these
+  // being recommended. It is here as a readable statement of the contract; the
+  // actual enforcement for Copilot is in settings.json.
+  "unwantedRecommendations": [
+    "GitHub.copilot",
+    "GitHub.copilot-chat",
+    "Codeium.codeium",
+    "TabNine.tabnine-vscode",
+    "Continue.continue"
+  ]
+}

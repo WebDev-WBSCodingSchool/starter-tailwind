@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# The only surface in this harness that sees the student's own commits. git
+# runs this directly — not through Claude Code, where a non-zero hook exit is
+# merely non-blocking — so a non-zero exit here really does refuse the commit.
+# That makes a missing `node` fatal in a way nothing else in this harness is:
+# nvm, for one common example, only puts `node` on PATH in an interactive
+# shell, so a commit made from VS Code's source-control button (which runs a
+# non-interactive shell) can die with "env: node: No such file or directory"
+# on a commit the student did nothing wrong to make. So the fail-open
+# guarantee has to live here, in shell, upstream of node entirely — nothing
+# inside pre-commit.mjs can reach a failure this early.
+#
+# The mapping below is deliberately inverted from the obvious one: the
+# default answer is "let the commit through", and only one specific,
+# recognised signal from the checker overturns it. A checker that crashed,
+# hit a syntax error, ran out of memory, or was never there to begin with has
+# not refused anything — so all of that reaches git as exit 0, the same as a
+# clean commit. Only pre-commit.mjs choosing exit 9 on purpose becomes the
+# exit 1 that actually blocks.
+
+command -v node >/dev/null 2>&1 || exit 0
+
+node "$(dirname "$0")/pre-commit.mjs"
+status=$?
+
+if [ "$status" -eq 9 ]; then
+  exit 1
+fi
+exit 0

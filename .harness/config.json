@@ -1,0 +1,83 @@
+{
+  "assignment": "003-intro-to-js — Figma and Tailwind CSS",
+
+  "unlockRoute": true,
+  "onboarding": true,
+  "planFile": "PLAN.md",
+
+  "transcripts": false,
+
+  "integrationBranch": "main",
+  "branchDiscipline": "warn",
+
+  "gated": ["semanticHtml", "tailwindStyling", "css"],
+
+  "guardedExtensions": [".html", ".css", ".js"],
+
+  "neverWritable": [
+    "PLAN.md",
+    ".harness/",
+    ".claude/settings.json",
+    ".claude/settings.local.json",
+    ".claude/hooks/",
+    ".claude/skills/",
+    ".vscode/"
+  ],
+
+  "writableExceptions": [],
+
+  "canonical": ["README.md", "CLAUDE.md", "AGENTS.md", "GEMINI.md", ".github/copilot-instructions.md"],
+
+  "progressDir": ".harness/progress",
+
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Header and navigation",
+      "file": "index.html",
+      "categories": ["semanticHtml", "tailwindStyling", "css"]
+    },
+    {
+      "id": "T2",
+      "title": "Hero and property search bar",
+      "file": "index.html",
+      "categories": ["semanticHtml", "tailwindStyling", "css"]
+    },
+    {
+      "id": "T3",
+      "title": "\"We help you find\" section with the stats row",
+      "file": "index.html",
+      "categories": ["semanticHtml", "tailwindStyling", "css"]
+    },
+    {
+      "id": "T4",
+      "title": "\"Why choose us\" feature cards",
+      "file": "index.html",
+      "categories": ["semanticHtml", "tailwindStyling", "css"]
+    },
+    {
+      "id": "T5",
+      "title": "Popular residences — the property cards",
+      "file": "index.html",
+      "categories": ["semanticHtml", "tailwindStyling", "css"]
+    },
+    {
+      "id": "T6",
+      "title": "Testimonials",
+      "file": "index.html",
+      "categories": ["semanticHtml", "tailwindStyling", "css"]
+    },
+    {
+      "id": "T7",
+      "title": "Get-help call to action, with its form",
+      "file": "index.html",
+      "categories": ["semanticHtml", "tailwindStyling", "css"]
+    },
+    {
+      "id": "T8",
+      "title": "Footer",
+      "file": "index.html",
+      "categories": ["semanticHtml", "tailwindStyling", "css"]
+    }
+  ]
+}

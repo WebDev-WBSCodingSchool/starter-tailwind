@@ -1,0 +1,11 @@
+# Claude Code writes this one itself and gitignores it. Left here so it is
+# obvious it exists: it is the one override of the harness that would not show up
+# in a diff.
+.claude/settings.local.json
+
+.DS_Store
+node_modules/
+*.log
+
+# Do NOT ignore .harness/progress — it is committed on purpose. A local-only
+# ledger evaporates on a fresh clone or a second laptop.

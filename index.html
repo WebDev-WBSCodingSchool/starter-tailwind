@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Rename this. It is the first thing FR008 touches, and it is what shows
+         up in the browser tab and in the Google result. -->
+    <title>Find Your Dream Home</title>
+
+    <!-- Tailwind, straight from the CDN. No build step, no install, nothing to
+         run before the page works — open the file and it is styled. This line is
+         FR005, already done. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Your own stylesheet, for the few things utilities cannot say. It is also
+         what switches on the Tailwind IntelliSense extension — see styles.css. -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!--
+      This file is yours to type.
+
+      The eight markers below are the tasks from README.md, in page order. They
+      carry the same ids your Issues and your PLAN.md use, so the brief, the
+      issue, this file and the conversation with the agent all use one set of
+      words: say "T5" and everyone already knows what you mean.
+
+      There is no scaffolding here on purpose. Which elements a section is made
+      of, and how they nest, is the exercise — a stub would have decided it for
+      you.
+
+      Mobile first: write the phone layout in plain utilities, then add the
+      breakpoint variants on top. Going the other way round is the single most
+      common way this project gets rewritten on day four.
+
+      Delete a marker once its section is real, or leave it as a comment.
+      Nothing reads them.
+    -->
+
+    <!-- T1 — Header and navigation.
+         How someone gets from the top of the page to everything below it. There
+         is an element that means "this is the site's navigation"; find it rather
+         than saying so in a class name. On a phone this has to survive without
+         JavaScript. -->
+
+    <!-- T2 — Hero and property search bar.
+         The first screenful: the headline, the line of promise under it, the
+         image, and the search controls. A page has one h1, and this is where it
+         goes. The search controls are real form elements even though nothing is
+         submitted anywhere yet — a label belongs to every one of them. -->
+
+    <!-- T3 — "We help you find" section, with the stats row.
+         An image beside a block of text, and three numbers with captions. Ask
+         what the numbers *are* before you decide which element holds them. This
+         is the first section where the phone and the desktop layouts genuinely
+         differ. -->
+
+    <!-- T4 — "Why choose us" feature cards.
+         Four cards, each an icon, a short heading and a sentence. They are a
+         set, and there is markup that says "these are a set". Watch your heading
+         levels: these sit under the section's own heading. -->
+
+    <!-- T5 — Popular residences: the property cards.
+         Three cards, each with a photo, a location, the beds-and-baths details
+         and a price. This is the section where the same markup repeats with
+         different content, so whatever you get right once you get right three
+         times — and whatever you get wrong, likewise. Every image needs alt
+         text that says something. -->
+
+    <!-- T6 — Testimonials.
+         Three quotes, each with a name and a face. There is an element for a
+         quotation and an element for saying who said it; using them is the
+         point of FR004. The carousel dots in the design can stay as plain
+         markup — nothing has to move. -->
+
+    <!-- T7 — Get-help call to action, with its form.
+         A heading, a line of copy, an input and a button. It is a form: it needs
+         a form element, a label the input is actually tied to, and an input type
+         that suits what is being typed. It does not need to send anywhere. -->
+
+    <!-- T8 — Footer.
+         The logo, the columns of links, whatever legal text you decide belongs.
+         Footers are where heading levels and list markup quietly go wrong,
+         because it looks like decoration and is not. -->
+  </body>
+</html>

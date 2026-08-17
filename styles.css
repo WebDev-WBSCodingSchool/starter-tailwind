@@ -1,0 +1,32 @@
+/*
+  Your stylesheet.
+
+  Two jobs.
+
+  The first is the line below. The Tailwind CSS IntelliSense extension for VS
+  Code only wakes up when it finds a stylesheet carrying this directive, and it
+  is worth having: it completes utility names as you type them and shows you the
+  real CSS behind one when you hover it.
+
+  Expect to see a 404 for "tailwindcss" in the network tab. That is this line,
+  and it is harmless — the actual Tailwind comes from the CDN script in
+  index.html, and this directive is here for the editor, not for the browser.
+  Do not spend an hour on it.
+*/
+
+@import "tailwindcss";
+
+/*
+  The second job: anything utilities cannot say.
+
+  Most of the design should be classes in the markup — that is what this module
+  is about, and reaching for this file to avoid learning a utility is the way to
+  get less out of the week. But some things genuinely do not fit, and when you
+  hit one, write it here rather than fighting it:
+
+    - a keyframe animation
+    - a scroll-behaviour or selection colour on the whole document
+    - one very specific shape a utility has no name for
+
+  Everything you write here is yours to type, exactly like the classes are.
+*/

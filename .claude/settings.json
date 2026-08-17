@@ -1,0 +1,83 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(/.harness/**)",
+      "Edit(/.claude/hooks/**)",
+      "Edit(/.claude/skills/**)",
+      "Edit(/.claude/settings.json)",
+      "Edit(/README.md)",
+      "Edit(/CLAUDE.md)",
+      "Edit(/AGENTS.md)",
+      "Edit(/GEMINI.md)",
+      "Edit(/.github/copilot-instructions.md)",
+      "Edit(/.vscode/**)",
+
+      "Write(/.harness/**)",
+      "Write(/.claude/hooks/**)",
+      "Write(/.claude/skills/**)",
+      "Write(/.claude/settings.json)",
+      "Write(/README.md)",
+      "Write(/CLAUDE.md)",
+      "Write(/AGENTS.md)",
+      "Write(/GEMINI.md)",
+      "Write(/.github/copilot-instructions.md)",
+      "Write(/.vscode/**)"
+    ],
+    "disableBypassPermissionsMode": "disable"
+  },
+
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/transcript.mjs"],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/transcript.mjs"],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/guard.mjs"],
+            "statusMessage": "Checking against the harness",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/bash-guard.mjs"],
+            "statusMessage": "Checking against the harness",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
