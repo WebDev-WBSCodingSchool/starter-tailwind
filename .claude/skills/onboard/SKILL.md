@@ -7,7 +7,7 @@ description: Run the kickoff — the group's huddle, where this repo has one, th
 
 ## Which shape this repo is
 
-Read `.harness/config.json` first.
+Read `.claude/harness/config.json` first.
 
 - **`onboarding: true`** — a group assignment. Run the huddle, then the checks.
   `PLAN.md` is the gate and nothing is written until it passes.

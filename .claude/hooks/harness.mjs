@@ -12,7 +12,7 @@ import { join, relative, resolve, sep } from "node:path";
 export const root = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
 
 export function loadConfig() {
-  return JSON.parse(readFileSync(join(root, ".harness", "config.json"), "utf8"));
+  return JSON.parse(readFileSync(join(root, ".claude/harness", "config.json"), "utf8"));
 }
 
 /** Repo-relative, forward-slashed. Windows gives back backslashes otherwise. */

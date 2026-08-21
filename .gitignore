@@ -7,5 +7,5 @@
 node_modules/
 *.log
 
-# Do NOT ignore .harness/progress — it is committed on purpose. A local-only
+# Do NOT ignore .claude/harness/progress — it is committed on purpose. A local-only
 # ledger evaporates on a fresh clone or a second laptop.

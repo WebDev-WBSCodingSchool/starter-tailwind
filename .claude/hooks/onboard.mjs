@@ -278,10 +278,10 @@ if (has("--check")) {
 
   // 4. Wire the pre-commit hook. Local, per clone, never committed — same shape as
   //    the gh base fix above. A committed hook nothing points at does nothing;
-  //    git will not use .githooks unless it is told to, and it cannot be told to
+  //    git will not use .claude/githooks unless it is told to, and it cannot be told to
   //    by a committed file.
   try {
-    git(["config", "core.hooksPath", ".githooks"]);
+    git(["config", "core.hooksPath", ".claude/githooks"]);
     console.log(`  ✓ git will run this repo's pre-commit check`);
   } catch (err) {
     console.log(`  – couldn't wire the pre-commit check (${err.message})`);

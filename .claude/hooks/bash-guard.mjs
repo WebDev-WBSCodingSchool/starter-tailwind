@@ -47,8 +47,8 @@ const WRITE_VERBS = String.raw`tee|cp|mv|install|rsync|truncate|touch`;
  *
  * This is separate from writesInto() and matches on the PATH, not the extension,
  * because the locked set is mostly not source: `README.md`, `CLAUDE.md` and
- * `.harness/config.json` are none of them in guardedExtensions, so before this
- * existed `echo x > README.md` and `echo {} > .harness/config.json` both went
+ * `.claude/harness/config.json` are none of them in guardedExtensions, so before this
+ * existed `echo x > README.md` and `echo {} > .claude/harness/config.json` both went
  * straight past the shell guard while the identical Edit was denied. A guard the
  * agent can step around by changing tools is not a guard.
  *
@@ -59,7 +59,7 @@ const WRITE_VERBS = String.raw`tee|cp|mv|install|rsync|truncate|touch`;
  */
 function writesIntoLocked(command, locked) {
   const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  // A directory entry (".harness/") matches anything beneath it; a file entry
+  // A directory entry (".claude/harness/") matches anything beneath it; a file entry
   // matches itself. Both tolerate a leading "./" and surrounding quotes.
   const targets = locked
     .map((p) => (p.endsWith("/") ? `${esc(p)}[\\w./-]*` : esc(p)))
@@ -68,7 +68,7 @@ function writesIntoLocked(command, locked) {
   const target = String.raw`['"]?(?:\./)?(?:${targets})['"]?`;
 
   return [
-    // redirection:  > README.md   >> .harness/config.json
+    // redirection:  > README.md   >> .claude/harness/config.json
     new RegExp(String.raw`>>?\s*${target}`, "i"),
     new RegExp(String.raw`\b(${WRITE_VERBS})\b[^|;&]*${target}`, "i"),
     new RegExp(String.raw`\b(sed|perl)\b[^|;&]*\s-i\b[^|;&]*${target}`, "i"),

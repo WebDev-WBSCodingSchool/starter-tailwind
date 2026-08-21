@@ -3,7 +3,7 @@
 // on main is invisible to everything but this.
 //
 // Wired per clone by `/onboard --check`, with one line of local git config:
-//   git config core.hooksPath .githooks
+//   git config core.hooksPath .claude/githooks
 // Local, never committed — the same idiom base-repo-check used for the gh base.
 //
 // git does not run this file directly — it runs the sibling `pre-commit` (a

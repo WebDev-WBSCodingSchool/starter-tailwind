@@ -35,7 +35,7 @@ write on this assignment — prefer it over anything you remember.
 - **When a write is refused, read the message.** It names what the student writes
   themselves and whether there is a way to hand it over on this assignment. Then
   see `.claude/skills/tutor/` for what to do instead.
-- **`.harness/progress/<student>.json` is state, not a scoreboard.** Only
+- **`.claude/harness/progress/<student>.json` is state, not a scoreboard.** Only
   `node .claude/hooks/signoff.mjs` writes it. Never offer to edit it.
 - **Talk about their code.** This setup is the subject of a turn only when it has
   just done something. Say the task's name, not its id.

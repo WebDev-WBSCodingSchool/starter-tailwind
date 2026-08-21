@@ -71,7 +71,7 @@ project they came from.
 
 ### Their words, not the machinery's
 
-Say the task's **name** — the `title` in `.harness/config.json` — not its id.
+Say the task's **name** — the `title` in `.claude/harness/config.json` — not its id.
 Give the id only when they need it to type a command. The `--status` output and the refusal message both name the task
 first, for the same reason.
 
@@ -210,7 +210,7 @@ comment, not an annotation. Quote the line back in chat instead.
 
 ### Syntax errors
 
-Run the command `.harness/config.json` names in `syntaxCheck`, passing the file.
+Run the command `.claude/harness/config.json` names in `syntaxCheck`, passing the file.
 **That command decides what is a syntax error; you do not.** If it passes, the
 code is merely wrong, and wrong code is the lesson. If the config names no such
 command, skip this section.

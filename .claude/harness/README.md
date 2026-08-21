@@ -1,4 +1,4 @@
-# `.harness/`
+# `.claude/harness/`
 
 Harness state and configuration. **Students don't edit anything in here**, and
 neither does the agent — `guard.mjs` denies agent writes to this whole directory.
@@ -27,8 +27,8 @@ next.
 | `localFile`         | The file a student creates locally, from a committed template, and never commits — a `config.js` holding an API key, say. Not read by any hook here; only the generator's `verify.mjs` reads it, to confirm the name it names is actually listed in `.gitignore`. Absent where the assignment has no such file. |
 | `integrationBranch` | The branch feature branches are cut from and merged back into, `"main"` unless the group works on a `dev` branch. Read by `signoff.mjs` to decide which commits belong to this task, and by the branch checks to spot a stale base. |
 | `branchDiscipline`  | `"block" \| "warn" \| "off"`. What happens when work is on `main`, on a stale base, on an already-merged branch, or on a branch a previous sign-off already used. `"warn"` reports and records; `"block"` also fails the pre-commit hook. The fading scaffold applied to git: early assignments block, mid-term ones warn, late ones turn it off. |
-| `progressDir`       | Where per-student progress files live, one JSON file per git email — `".harness/progress"` unless changed. Read and written by `harness.mjs`'s progress functions; this is what `signoff.mjs` updates and what `--status` and the guard read back to decide what is unlocked. |
-| `transcripts`       | Whether `transcript.mjs` copies each session's Claude Code transcript into `.harness/transcripts/` and commits it. `false` is the shipped default and the only one a public student repo should ever run with — see the `transcripts/` section below. |
+| `progressDir`       | Where per-student progress files live, one JSON file per git email — `".claude/harness/progress"` unless changed. Read and written by `harness.mjs`'s progress functions; this is what `signoff.mjs` updates and what `--status` and the guard read back to decide what is unlocked. |
+| `transcripts`       | Whether `transcript.mjs` copies each session's Claude Code transcript into `.claude/harness/transcripts/` and commits it. `false` is the shipped default and the only one a public student repo should ever run with — see the `transcripts/` section below. |
 
 Two things are deliberately **not** here:
 
@@ -106,7 +106,7 @@ on in a *run copy*, never in this starter (see `red-team/README.md`).
 Cutting it out, when the prototype is done — one file and four greps:
 
 ```
-rm -r .claude/hooks/transcript.mjs .harness/transcripts
+rm -r .claude/hooks/transcript.mjs .claude/harness/transcripts
 # then delete the "Stop" and "SessionEnd" blocks from .claude/settings.json,
 # the "transcripts" key from config.json, this section, and the two test
 # blocks. `grep -rin transcript` finds every trace; the suite fails if a
@@ -119,7 +119,7 @@ rather than an unpicking.
 
 `"transcripts": true` in `config.json` turns on `.claude/hooks/transcript.mjs`,
 which copies the session's full Claude Code transcript into
-`.harness/transcripts/<student>-<session>.jsonl` after every agent turn and
+`.claude/harness/transcripts/<student>-<session>.jsonl` after every agent turn and
 commits it once per session. It is the whole conversation, verbatim, plus every
 file the agent read on the way.
 
@@ -137,7 +137,7 @@ the flag is off until all three hold:
    nothing about it happens quietly. Paste-ready:
 
    > **This run is being logged.** Your conversations with the agent are copied
-   > into `.harness/transcripts/` and committed, so we can see where the harness
+   > into `.claude/harness/transcripts/` and committed, so we can see where the harness
    > helps and where it gets in the way. The repo is private and only the
    > instructors read it. It is the full conversation, so treat it like anything
    > else you commit — and say so if you would rather not have it on, which is a

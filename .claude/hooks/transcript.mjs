@@ -1,6 +1,6 @@
 // Copies this session's transcript into the repo so it lands in git.
 //
-// Off unless `.harness/config.json` says `"transcripts": true`, and the README
+// Off unless `.claude/harness/config.json` says `"transcripts": true`, and the README
 // says so where the student reads it — a log nobody was told about is the one
 // thing on this map that a student could not see happening.
 //
@@ -17,7 +17,7 @@ import { copyFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { root, loadConfig, git, studentKey } from "./harness.mjs";
 
-const DIR = ".harness/transcripts";
+const DIR = ".claude/harness/transcripts";
 
 let event = {};
 try {

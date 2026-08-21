@@ -81,7 +81,7 @@
   // that stops an absent-minded edit to the thing everyone is working from.
   //
   // The half that binds the agent is elsewhere and is not cosmetic: `canonical`
-  // in .harness/config.json, enforced by both hooks and by permissions.deny.
+  // in .claude/harness/config.json, enforced by both hooks and by permissions.deny.
   //
   // This setting is an editor affordance, nothing more. It does not stop `echo >
   // README.md`, it does not survive opening the file in another editor, and you
@@ -96,7 +96,7 @@
   // `.claude/skills/**` is here for the same reason `.claude/hooks/**` is: the
   // skill is the script the agent follows when it refuses you, so editing it
   // keeps the gate and drops the tutoring. The agent is already refused it
-  // outright (`neverWritable` in .harness/config.json); this is the student-facing
+  // outright (`neverWritable` in .claude/harness/config.json); this is the student-facing
   // half. If a later assignment is *about* writing skills, `writableExceptions`
   // opens the agent side and this line comes out.
   //
@@ -110,11 +110,31 @@
     "AGENTS.md": true,
     "GEMINI.md": true,
     ".github/copilot-instructions.md": true,
-    ".harness/**": true,
+    ".claude/harness/**": true,
     ".claude/hooks/**": true,
     ".claude/skills/**": true,
     ".claude/settings.json": true,
     ".vscode/**": true
+  },
+
+  // ---------- TIDINESS ----------
+
+  // Five files at the top of the tree that are not yours to edit, sitting above
+  // the ones that are. Nesting folds them under README.md — the one they all
+  // point at — so the first thing you see in the explorer is your own code.
+  //
+  // This is explorer drawing and nothing else. The files stay exactly where they
+  // are, still at the repo root, still committed, still found by every agent that
+  // reads them: Claude Code, Gemini CLI and Copilot each look for their file at
+  // the root and none of them can see this setting. Search and Quick Open still
+  // find them. Click the triangle on README.md and there they are.
+  //
+  // Nesting works on files only, never folders, and only within one directory —
+  // which is why `.claude`, `.vscode` and `.github` are still four lines up top.
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "README.md": "CLAUDE.md, AGENTS.md, GEMINI.md, .gitignore"
   },
 
   // ---------- SIGNALLING ----------

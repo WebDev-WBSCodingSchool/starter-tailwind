@@ -1,7 +1,7 @@
 {
   "permissions": {
     "deny": [
-      "Edit(/.harness/**)",
+      "Edit(/.claude/harness/**)",
       "Edit(/.claude/hooks/**)",
       "Edit(/.claude/skills/**)",
       "Edit(/.claude/settings.json)",
@@ -12,7 +12,7 @@
       "Edit(/.github/copilot-instructions.md)",
       "Edit(/.vscode/**)",
 
-      "Write(/.harness/**)",
+      "Write(/.claude/harness/**)",
       "Write(/.claude/hooks/**)",
       "Write(/.claude/skills/**)",
       "Write(/.claude/settings.json)",

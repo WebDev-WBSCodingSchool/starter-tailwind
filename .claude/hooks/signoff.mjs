@@ -8,7 +8,7 @@
 //   node .claude/hooks/signoff.mjs --status
 //
 // The agent invokes this after an explain-back it judged a pass. It cannot write
-// the record directly — guard.mjs denies writes to .harness/ — so this script is
+// the record directly — guard.mjs denies writes to .claude/harness/ — so this script is
 // the whole of the write path, and every rule that has to be *enforced* rather
 // than merely described lives here rather than in the skill.
 //

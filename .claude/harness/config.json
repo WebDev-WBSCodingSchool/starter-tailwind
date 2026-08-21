@@ -16,7 +16,7 @@
 
   "neverWritable": [
     "PLAN.md",
-    ".harness/",
+    ".claude/harness/",
     ".claude/settings.json",
     ".claude/settings.local.json",
     ".claude/hooks/",
@@ -28,7 +28,7 @@
 
   "canonical": ["README.md", "CLAUDE.md", "AGENTS.md", "GEMINI.md", ".github/copilot-instructions.md"],
 
-  "progressDir": ".harness/progress",
+  "progressDir": ".claude/harness/progress",
 
   "tasks": [
     {
