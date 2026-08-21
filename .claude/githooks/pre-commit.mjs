@@ -24,7 +24,7 @@
 // to be dynamic. Giving the file an extension removed the ambiguity instead
 // of working around it.)
 
-import { loadConfig, branchState } from "../.claude/hooks/harness.mjs";
+import { loadConfig, branchState } from "../hooks/harness.mjs";
 
 const state = branchState(loadConfig());
 
