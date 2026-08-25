@@ -241,8 +241,8 @@ care. Each of you has to turn up twice: once in the member list with your **git*
 email, and again on the task you took. On the task line your name is enough — the
 address is only needed once, because that is what your progress is filed under.
 
-Run `/onboard` and the agent will run the conversation, ask the awkward questions,
-and check the file. **It will not write a word of it** — `PLAN.md` is what the
+Run `/onboard` and the agent will run the conversation, name the parts nobody has
+claimed and the places two of you will collide, and check the file. **It will not write a word of it** — `PLAN.md` is what the
 check reads, so an agent that could write it could clear its own way.
 
 **The check is live.** Edit `PLAN.md` so that someone has no task and the agent

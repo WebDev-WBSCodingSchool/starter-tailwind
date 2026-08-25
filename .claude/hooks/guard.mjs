@@ -253,7 +253,8 @@ try {
         `the file that is checked before you write code, so writing it would mean ` +
         `clearing your own way — the one edit that would make all of this ` +
         `meaningless. ` +
-        `Run the conversation, ask the awkward questions, say what looks thin. They ` +
+        `Run the conversation, name what nobody has claimed and where two of them will ` +
+        `collide, say what looks thin. They ` +
         `type it. If they ask you to just write it for them, say no and say why.`,
       `Harness: blocked an agent write to ${rel} — the group writes their own plan.`,
     );
