@@ -139,6 +139,11 @@ if (block && text === null) {
 // The third was two for a while. It joined them because the fork model makes it
 // universal: every assignment is distributed as a fork, so every assignment
 // ships with `gh` pointed at the repo the student must not write to.
+//
+// Two things print here that are NOT checks and never fail: who can push to the
+// fork, and which branch they are on. Both are things the group has to know and
+// neither is something a script gets to have an opinion about — who is in the
+// group is theirs, and standing on the integration branch at kickoff is correct.
 
 let failed = false;
 
@@ -231,6 +236,22 @@ if (has("--check")) {
       failed = true;
     } else {
       console.log(`  ✓ ${repo.nameWithOwner} — issues and Pull Requests go there`);
+
+      // Who else can push here? The fork model puts the whole group in ONE repo,
+      // so a member who was never added as a collaborator is not blocked by
+      // anything visible — they find out at their first push, which is days in
+      // and never at a convenient moment. Reported, never a failure: who belongs
+      // in the group is the group's business and this script cannot know it.
+      // Listing collaborators needs push access itself, so a student on a repo
+      // that is not theirs simply gets nothing here, which is the right amount.
+      try {
+        const who = JSON.parse(gh(["api", `repos/${repo.nameWithOwner}/collaborators`, "--jq", "[.[].login]"]));
+        console.log(`    ${who.length === 1 ? "1 person can" : `${who.length} people can`} push here: ${who.join(", ")}`);
+        console.log(`    Everyone in the group belongs on that list, working in this one repo.`);
+      } catch {
+        /* no push access to ask with, offline, rate limited — all the same silence */
+      }
+
       if (repo.parent) {
         // The website's dropdown is not something this script can set. Say it
         // once, name both repos, and let them recognise it when they see it.
@@ -291,9 +312,25 @@ if (has("--check")) {
   // Nothing here about writing the plan: check 2 fails whenever it is missing, so
   // reaching this line already means it exists and names this student. Telling
   // them to go and write it would be advice that can only arrive too late.
+  //
+  // The branch is the last thing setup owes them: every change reaches the
+  // integration branch through a Pull Request, so work started on the integration
+  // branch itself has nowhere to go. Which of the two lines below prints is the
+  // whole difference between "you are set up" and "you are working".
   if (!failed) {
-    console.log(`Next: pick a task and cut a branch for it:`);
-    console.log(`      git switch -c <task-id>-<short-name>\n`);
+    let branch = null;
+    try {
+      branch = git(["rev-parse", "--abbrev-ref", "HEAD"]);
+    } catch {
+      /* no commits yet, or detached — treated as "no branch of their own" below */
+    }
+    if (branch && branch !== (config.integrationBranch ?? "main")) {
+      console.log(`Next: you are on ${branch}, so you have somewhere to work. Write the task,`);
+      console.log(`      commit it with --signoff, then ask the agent to go through it with you.\n`);
+    } else {
+      console.log(`Next: pick a task and cut a branch for it:`);
+      console.log(`      git switch -c <task-id>-<short-name>\n`);
+    }
   }
 }
 

@@ -24,14 +24,47 @@
 // to be dynamic. Giving the file an extension removed the ambiguity instead
 // of working around it.)
 
+import { openSync, readSync, closeSync } from "node:fs";
+
 import { loadConfig, branchState } from "../hooks/harness.mjs";
+
+/**
+ * Ask, and wait for an answer. Anything but a yes is a no.
+ *
+ * Reads `/dev/tty` rather than stdin, because git gives a hook no usable stdin —
+ * the terminal the student is typing into has to be opened directly. When there
+ * is no terminal to open, there is nobody to ask: a commit from VS Code's
+ * source-control button, or from a script, gets a yes rather than hanging
+ * forever on a prompt nobody can see. Same fail-open stance as the sh wrapper.
+ */
+function confirmed(question) {
+  let fd;
+  try {
+    fd = openSync("/dev/tty", "r");
+  } catch {
+    return true;
+  }
+  try {
+    process.stderr.write(question);
+    const buf = Buffer.alloc(16);
+    const n = readSync(fd, buf, 0, 16, null);
+    return /^\s*(y|yes|j|ja)\s*$/i.test(buf.toString("utf8", 0, n));
+  } catch {
+    return true;
+  } finally {
+    closeSync(fd);
+  }
+}
 
 const state = branchState(loadConfig());
 
 if (state.problems.length) {
   for (const p of state.problems) process.stderr.write(`\n  ${p.text}\n`);
 
-  if (state.mode === "block") {
+  // "warn" asks; "block" does not. The difference between the two modes is
+  // whether the student gets to overrule the harness in the moment, and a
+  // question they can answer "yes" to is what that looks like.
+  if (state.mode === "block" || !confirmed(`\n  Commit anyway? [y/N] `)) {
     process.stderr.write(
       `\n  This commit was not made. Fix the above and commit again — nothing is lost, ` +
         `everything you staged is still staged.\n` +
@@ -39,6 +72,6 @@ if (state.problems.length) {
     );
     process.exit(9);
   }
-  process.stderr.write(`\n  Committed anyway — this is a warning, not a wall.\n\n`);
+  process.stderr.write(`\n`);
 }
 process.exit(0);
