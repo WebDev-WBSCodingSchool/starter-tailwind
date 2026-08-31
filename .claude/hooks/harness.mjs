@@ -314,6 +314,23 @@ export function planBlock(text /* null when PLAN.md is absent */, plan = "PLAN.m
   );
 }
 
+/**
+ * How many people the plan names. Zero when there is no plan, which is the
+ * honest answer for a solo assignment: `onboarding: false` means no PLAN.md is
+ * expected, and a repo with no group in it is not a group project.
+ *
+ * Swallows a fault for the same reason branchState() never throws — this only
+ * ever decides whether to say something, never whether to allow something.
+ */
+function planMembers(config) {
+  try {
+    const p = join(root, planFile(config));
+    return existsSync(p) ? readPlan(readFileSync(p, "utf8")).length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export function planFile(config) {
   return config.planFile ?? "PLAN.md";
 }
@@ -495,6 +512,19 @@ export function branchState(config) {
   const mode = config.branchDiscipline ?? "off";
   const out = { mode, branch: "", problems: [] };
   if (mode === "off") return out;
+
+  // Branch discipline is a group problem. Branches exist so somebody else can
+  // read the work before it lands, and a stale base only matters when someone
+  // else has moved the base. Alone, there is nobody to review and nothing to
+  // collide with, so a solo student may commit straight to `main` and merge
+  // their own branches without being asked to justify it. Fewer than two
+  // addresses in PLAN.md — including no PLAN.md at all, which is what a solo
+  // assignment looks like — means solo, and the whole check turns itself off
+  // for all three callers at once.
+  if (planMembers(config) < 2) {
+    out.mode = "off";
+    return out;
+  }
 
   const integration = config.integrationBranch ?? "main";
   const say = (code, text) => out.problems.push({ code, text });

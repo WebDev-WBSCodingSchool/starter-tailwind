@@ -71,7 +71,7 @@ if (process.argv.includes("--status")) {
   console.log(
     config.unlockRoute === false
       ? `On this assignment nothing gets handed over — the code below stays yours throughout.`
-      : `On this assignment, signing off a task lets the agent write that kind of code with you.`,
+      : `On this assignment, signing off a task lets you ask the agent for help with that kind of code.`,
   );
   console.log(`\nTasks:`);
   for (const t of config.tasks) {
@@ -79,7 +79,7 @@ if (process.argv.includes("--status")) {
     const mark = row ? `signed off (${row.route}, ${row.commits.at(-1).slice(0, 7)})` : "not yet";
     console.log(`  ${t.title.padEnd(24)} ${t.id}  ${mark}`);
   }
-  console.log(`\nThe agent can write these with you: ${[...open].join(", ") || "none of them yet"}`);
+  console.log(`\nYou may ask the agent for help with these: ${[...open].join(", ") || "none of them yet"}`);
   console.log(`Still yours to type: ${(config.gated ?? []).filter((c) => !open.has(c)).join(", ") || "nothing"}`);
 
   // The group line, and the only place the agent can read it. README.md states
@@ -164,8 +164,8 @@ if (process.argv.includes("--done")) {
   const gated = config.gated ?? [];
   console.log(
     gated.length
-      ? `The agent can now write ${gated.join(", ")} with you. Build what you like on top of what you wrote.`
-      : `Nothing was gated on this assignment, so nothing was ever withheld. Build what you like on top of what you wrote.`,
+      ? `You may now ask the agent for help with ${gated.join(", ")}. It still waits for your request and asks a project-specific question before editing code.`
+      : `Nothing was protected by this check. The agent still waits for your request and asks a project-specific question before editing code.`,
   );
   console.log(`Commit that file along with your work.\n`);
   process.exit(0);
@@ -348,8 +348,8 @@ writeProgress(config, unlocks);
 console.log(`\n${task.title} (${task.id}) signed off, ${row.route}. Recorded in ${progressPath(config).replace(root, ".")}`);
 console.log(
   opened.length
-    ? `The agent can now write ${opened.join(", ")} code with you — including in features beyond the core.`
-    : `Nothing new — the agent could already write ${task.categories.join(", ")} with you.`,
+    ? `You may now ask the agent for help with ${opened.join(", ")} code, including in features beyond the core. It still asks a project-specific question before editing.`
+    : `Nothing new. You could already ask the agent for help with ${task.categories.join(", ")}.`,
 );
 console.log(`Commit that file along with your work.\n`);
 for (const p of bs.problems) console.log(`  ${p.text}\n`);

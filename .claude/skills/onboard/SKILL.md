@@ -1,325 +1,255 @@
 ---
 name: onboard
-description: The whole of a student's setup. What this project is, what the group has to decide, the checks that confirm a clone is configured right, and what each person does next. Use when a student runs /onboard, when someone has just cloned the fork, when PLAN.md does not exist yet, or when a write is refused because the plan is not settled.
+description: Guide a student through project setup, repository checks, optional group planning, and their first task branch. Use when a student runs /onboard, joins an existing group clone, or needs help after the plan blocks a write.
+disable-model-invocation: true
 ---
 
 # Onboard
 
-Someone is starting. Maybe the group at kickoff, maybe the fourth member cloning
-two days later, maybe someone who has just been told a write was refused.
+A student may be starting with their group, joining later, or returning after the
+plan blocked a write.
 
-They were told all of this by a human a few hours ago. Some of them were not
-listening, some have forgotten, and none of them has read `README.md`. Assume none
-of it landed, and do not ask whether they remember. Just say it, once, plainly.
-Their first sentence from you should be about the project they are building, never
-about a file that is missing.
+Start with the project they are building, not a missing file or failed check. Do
+not test what they remember from an earlier explanation. Give them the context
+they need now.
 
-## Before you say anything
+## Prepare
 
-Read, in this order:
+Read these sources before replying:
 
-1. `.claude/harness/config.json`, for `onboarding`, `planFile`, `tasks` and
-   `gated`.
-2. `README.md`, the rules, and the only source for anything specific to **this**
-   assignment. Never describe the project from memory.
-3. Whether the plan file exists, and if it does, what is in it.
+1. `.claude/harness/config.json`, especially `onboarding`, `planFile`, `tasks`,
+   `gated`, and `integrationBranch`.
+2. `README.md`. It is the source for all assignment-specific rules.
+3. The configured plan file, if it exists.
 
-Then run the checks:
+Then run:
 
-```
+```text
 node .claude/hooks/onboard.mjs --check
 ```
 
-That prints what the plan check currently sees, plus the setup checks: they are at
-the repo root, their git email is in the plan, and their Pull Requests point at
-their own fork rather than at the repo they forked from. The last one it fixes
-while it is there, along with wiring up the repo's pre-commit hook. Both are a
-line of local git config and neither is committed. Safe to run as often as you
-like, and worth re-running at the end of anything you fixed together.
+The command reports whether the student is at the repository root, whether their
+Git email matches the plan, and whether pull requests point to the working fork.
+It also tries to set the local GitHub CLI default and install the repository's
+pre-commit hook. Those changes stay in local Git configuration and are not
+committed.
 
-**Do not open with its output.** Read it, keep it, and use it to work out which of
-the sections below they actually need.
+Do not begin by pasting the check output. Use it to choose the relevant path
+below. When something fails, explain one problem, why it matters, and the next
+action.
 
-## Which shape this repo is
+After fixing a setup problem, rerun `--check` before moving on.
 
-- **`onboarding: true`** is a group assignment. The plan file is the gate: no code
-  for anyone in the group until it exists and every member it names has a task.
-- **`onboarding: false`** means the student is **working alone**. There is no
-  kickoff meeting, no plan file, no split, and `--issues` has nothing to work
-  from. Everything else on this page still applies: the orientation, the setup
-  checks, the setup itself, the branch. Two things from the meeting are still
-  worth one turn each: the scoping question (step 3), and whatever the brief names
-  as the thing to settle before any code. Working alone, the assumption nobody
-  would have argued about gets made silently instead, which is worse, not better.
+## Choose the relevant path
 
-**You run the conversation. You write no part of the plan file.** You may not
-write it, and that is deliberate: it is the file that gets checked, so writing it
-would mean clearing your own way.
-
-## Where they actually are
-
-Work this out from what you read. Do not ask them which stage they are in; they do
-not know, and that is why they ran this.
-
-| What you found | What they need |
+| What you find | What to do |
 | --- | --- |
-| a check failure meaning the wrong repo | **The wrong repo**, and nothing else until it is fixed |
-| no plan file yet | orientation, then setup, then the kickoff meeting |
-| a plan file, and this person is new here | orientation, shorter, then setup, then their task, then a branch |
-| everything green | one short turn: where they stand, and their next command |
+| The student is in the wrong repository | Fix that first. Do not continue setup until it is clear where the work belongs. |
+| `onboarding` is `false` | Give a short orientation, complete local setup, ask about the assignment's required opening decisions, then create a task branch. |
+| `onboarding` is `true` and the plan is missing | Give the orientation, complete local setup, then guide the group kickoff. |
+| The plan exists and this student is new to the clone | Give a shorter orientation, complete their setup, identify their task, then create a branch. |
+| All checks pass | State where they are and give only the next action. |
 
-A group meets this skill many times: once at kickoff, once per member as they
-clone, again whenever a write is refused. **Only the first run is the long one.**
-Someone who has been working for two days gets three sentences, not a tour.
+The group may use this skill several times. Only the kickoff needs the full
+conversation. A returning student needs a status update and one next action, not
+the whole introduction again.
 
-## The orientation
+## Give a short orientation
 
-Four things, in their language, in something like a hundred and fifty words. All
-of it comes out of `README.md`; none of it is read aloud word for word.
+Use the student's language and keep this to about 150 words. Draw every detail
+from `README.md`.
 
-1. **What they are building, and how long they have.** One or two sentences,
-   concrete enough that it is recognisably this project and not a generic one.
-2. **The deal.** Which requirements they type themselves, and that everything else
-   the agent can write with them from day one. Say roughly how many of each. This
-   is the part that surprises people later if nobody said it early.
-3. **The loop.** Pick a task, cut a branch, write it, commit it, explain it back,
-   open a Pull Request, merge. That is the whole rhythm of the week.
-4. **Where they are standing right now**, in that loop.
+Cover:
 
-Then name the single next thing that happens, and stop. Do not follow the
-orientation with the checklist in the same breath. Let them answer.
+1. What they are building.
+2. Which parts students write and which parts they may ask the agent to help
+   implement.
+3. The working cycle: choose a task, create a branch, write, commit, explain the
+   code, open a pull request, and merge.
+4. The student's current point in that cycle.
 
-## The wrong repo
+End with one next action. Do not attach the full setup checklist to the same
+message.
 
-Two check failures mean they are standing in the wrong repository, and both are
-worth stopping everything for. Everything written before it is fixed is work that
-has to be moved.
+## Fix the wrong repository first
 
-- **read access only.** They cloned the repo they were meant to fork. Nothing they
-  commit here can be pushed, and a Pull Request from here goes to somebody else's
+The check can find two repository problems:
+
+- The student has read-only access. They cloned the source repository instead of
+  a fork. They cannot push there, and a pull request would target someone else's
   repository.
-- **"the repo everybody else forked".** They own it, so pushes will succeed and
-  land where nobody is looking. This one has no error message of its own anywhere
-  in git, so say out loud that nothing is broken and nothing is lost. The branch
-  is simply in the other repo.
+- The student is in the source repository that other people forked. A push may
+  succeed, but it puts their branch outside the group's working fork.
 
-There is a third shape the script cannot see: **a fork of a fork**. The group uses
-**one** fork with everyone added as collaborators on it. Someone who forks a
-teammate's fork gets a repo that works perfectly and merges into nothing. If a new
-member is about to clone, say which URL is the group's before they pick one.
+Explain that the existing work is not lost and can be moved after the correct
+fork is cloned.
 
-## The setup pass
+The script cannot detect every fork of a fork. A group uses one fork and adds all
+members as collaborators. Before a new member clones, name the exact URL the
+group uses.
 
-None of this is the code they are here to learn, so all of it is yours to help
-with, in full, including the commands.
+## Complete local setup
 
-- **Their git identity.** `git config user.email` has to be set, and it has to be
-  the same address on every machine they work from. Progress is filed under it, so
-  two addresses means two half-records and neither one counts.
-- **The repo root.** Claude Code started in a subfolder silently drops this
-  folder's settings, which drops the hooks. The check catches it; the fix is to
-  reopen the repo root and start again.
-- **The base repo and the pre-commit hook.** `--check` already did both. Say that
-  it did, rather than leaving them to wonder what changed.
-- **Whatever the README's setup section names.** Some assignments have a file the
-  student creates locally and never commits: a copy of a committed template, a
-  credentials file, something else. If the README names one and it is not there,
-  walk them through making it now, and **let them run the command**. A shell copy
-  into a guarded file is refused for you, and where it holds a credential it
-  should be their hands anyway.
-- **Anything that needs an account.** If the README points at a service they have
-  to sign up for, say so on day one. A signup that takes until tomorrow is a day
-  nobody's first task moves.
+You may help fully with setup because it is not code the student must implement.
 
-## The fork, and everyone's copy of it
+- Check `git config user.email`. The student should use the same address on every
+  machine because progress is stored under that address.
+- Make sure Claude Code started at the repository root. Starting in a subfolder
+  omits the project settings and hooks. Reopen the root folder and restart if
+  needed.
+- Explain whether `--check` set the GitHub CLI default and the pre-commit hook.
+- Follow any local setup in the README. If the student must create a local file,
+  explain the command and let them run it. This matters especially for files that
+  contain credentials.
+- Mention required accounts early when registration may delay the first task.
 
-The whole group works in **one** fork. Ask, and answer plainly:
+## Confirm the working fork
 
-- **Who owns it?** One person forks; everyone else is added as a collaborator on
-  that fork.
-- **Is everyone actually on it?** `--check` prints who can push. Read the list out
-  and compare it with who is in the room. A teammate who was never added finds out
-  at their first push, which is usually days later and always at the worst moment.
-- **Has everyone cloned that fork?** Not their own fork of it, not the repo it was
-  forked from. The same one.
+The group works in one fork:
 
-`--check` also warns about the base repo dropdown on GitHub's own "Compare & pull
-request" button, which offers the parent rather than the fork. Say that once,
-here, while nobody is in a hurry. It is the easiest mistake on this project.
+- One member owns the fork and adds the others as collaborators.
+- `--check` lists who can push. Compare that list with the group.
+- Every member clones that same fork, not a separate fork and not the source
+  repository.
 
-## The kickoff meeting
+GitHub's "Compare & pull request" button may select the source repository as the
+base. Warn the group once during setup so they know to select their working fork.
 
-Only where this repo has a plan file, and only when there is not one yet.
+## Handle a solo assignment
 
-This is a conversation, not a form. **Ask one thing at a time and let them
-answer.** Every question is about their project, in the concrete. A question that
-would fit any other group's project is one they will answer with a slogan, or not
-answer at all.
+When `onboarding` is `false`, skip the plan, group kickoff, and issue creation.
+The other setup checks still apply.
 
-1. **What are you building?** In their words, not the brief's.
-2. **Who uses it?** If they name the course, the instructor, the presentation, ask
-   who would use it if it were not an assignment.
-3. **How much of it?** Not *what does done look like*, which is an essay question,
-   and a group staring at a brief they read an hour ago cannot answer it. Take
-   what they have just described and ask about the parts of it that could
-   plausibly be dropped, as alternatives with an answer in them. What the
-   alternatives are comes from their project: the whole design or the first three
-   sections, one page or several, real content or placeholders, every feature in
-   the brief or the two that make it work at all. The shape is always two named
-   options, never an open question.
-4. **The split.** Walk the requirements and let them claim work until everyone has
-   at least one. If they stall, ask what the next thing that has to exist is.
-5. **What the split missed.** Read their split back against the requirement list,
-   the whole list in `README.md`, not only the tasks in `config.json`, and name
-   what nobody took. Publishing the thing is the one that goes missing in almost
-   every group, and the shell everyone else builds on top of is the other. One at
-   a time, and ask who; never assign it. Where the thing nobody took is one the
-   agent may write from day one, say that instead of asking for a volunteer. The
-   README is what says which side of the line it falls on.
-6. **Where two of them meet.** From what they have described, name the specific
-   places their areas touch: the file they will both have open, the element
-   sitting across the line they have just drawn, the task that cannot start until
-   someone else's exists. Where that is genuinely undecided, ask whose it is.
-   Where it is decided but still going to be awkward, such as one person's CSS
-   moving something that lands in another person's section, or two people needing
-   the same stored object to have the same shape, **say it once and let it stand.**
-   They do not have to solve it today. They have to have heard it before they walk
-   into it.
+Ask two kinds of opening questions, one at a time:
 
-**Where the brief names what this group has to settle**, those are the things. It
-has already picked them, and they are specific to this assignment in a way the
-requirement table does not show. Work them into the conversation rather than
-reading them out as a list. The ones about the whole project, such as a convention
-everyone has to share or what *done* means for one section, belong with step 3,
-before the split. The ones about a particular part belong after it, once there is
-someone whose part it is. Talked through together, with nobody put on the spot.
+- What is the smallest version of the project worth finishing? Use concrete
+  alternatives from this assignment when the scope is unclear.
+- What decision does the README say must be settled before coding starts?
 
-Merge conflicts belong to that last one. Where two of them will be in the same
-file, that is not a planning failure to engineer away. On these projects the
-conflicts are part of what the week teaches, so say so rather than re-cutting the
-split to dodge them.
+Skip the second question when the README names no such decision. Ask at most one
+follow-up about each point. Then complete setup and move to the student's task
+branch.
 
-**Never go round the room.** Do not ask them to answer separately before they hear
-each other, do not ask what each of them privately thought a requirement meant,
-and do not stage a disagreement to see what falls out. Split assumptions do
-surface in this conversation. They surface because questions 5 and 6 are concrete
-enough that two people answer them differently without being asked to perform.
+## Guide the group kickoff
 
-### How to press
+Use this section only when `onboarding` is `true` and the plan file is missing.
+Ask one question at a time and let the group answer. Everyone should be present
+because the point is to hear and settle shared assumptions.
 
-A first answer to any of these is usually a slogan. Press it **once**:
+Ask about:
 
-- Play back what you heard in their own words and ask whether that is right. A
-  restatement they have to correct is worth more than a question they can nod at.
-- If an answer would fit any other group's project, it is not an answer yet. Ask
-  what makes theirs different.
-- **When two members answer differently, say so out loud and let them settle it.**
-  Do not smooth it over, do not pick a winner, and do not write the compromise.
-  That disagreement, found today, is the entire reason for this meeting.
+1. **The project.** What are they building, in their own words?
+2. **The intended user.** Who would use it?
+3. **The scope.** What is the smallest version worth completing? Base any
+   alternatives on this project, such as one page or several, real content or
+   placeholders, or the full brief versus its essential features.
+4. **The task split.** Let members claim work until everyone has at least one
+   task. Do not propose task titles, a breakdown, or a split.
+5. **Missing work.** Compare their split with every requirement in `README.md`,
+   not only the tasks in the config. Name unclaimed work one item at a time and
+   ask who will take it. If the README says it is open to requested agent help,
+   tell the group that instead of asking for a volunteer.
+6. **Overlaps and dependencies.** Name the files, elements, data, or earlier tasks
+   that connect two people's work. Ask who owns an undecided part. If ownership is
+   clear, mention the overlap once and move on.
 
-Then stop. Two passes on any one point is the ceiling. This is a kickoff, not an
-interrogation, and you are not grading the plan. **A sketch is enough, and it is
-allowed to change later.** The question is whether a plan exists, never whether it
-was any good.
+Work assignment-specific decisions from the README into this conversation. Ask
+project-wide questions before the split and task-specific questions after someone
+has claimed that task.
 
-Say plainly, once, that this is a conversation to have with everyone present. A
-plan written by one member alone leaves the other three's assumptions uncollected,
-which is the whole thing it exists to surface.
+Do not interview members separately or manufacture a disagreement. When answers
+differ, state the difference and let the group settle it. Do not choose a side or
+write the compromise. Do not rearrange the split only to avoid merge conflicts;
+students resolve those together.
 
-**What to say about the shape.** They need their git emails in it, the address
-`git config user.email` prints, and each person's address or name again on the
-task they took. That is all the structure there is. Any format: a list, a table,
-prose. German or English.
+### Ask one follow-up
 
-When they have written it, run `--check` and read out what it says.
+If an answer is too general, follow up once. Either restate what you heard and ask
+whether it is accurate, or ask what makes this project specific. Then continue.
+Do not grade the plan or keep pressing for detail. A rough plan is enough and may
+change later.
+
+### Explain the plan format
+
+Never write or dictate the plan. An agent that edited it would satisfy its own
+check. Tell the group only what the check requires:
+
+- Each member appears once with the email from `git config user.email`.
+- Each member appears again on at least one task line. A name is enough there.
+- They may use a list, table, or prose, in German or English.
+
+After the group writes the plan, run `--check` again and report any remaining
+action.
 
 ## When the plan already exists
 
-Run `--check`, report what it found, and get out of the way.
+Run `--check` and keep the response brief. You may mention one concern, such as an
+uneven workload, a task blocked by two others, or two members editing the same
+function. Mention it once and continue.
 
-**Say what looks thin, once, and carry on either way.** Load lopsided, someone
-blocked on two other people's work, two of them landing in the same function. Name
-it and move on.
+A student who is new to the clone needs to know which task is theirs, whether
+their setup passes, and which branch to create.
 
-If the person in front of you is new to this clone, they mostly need three things:
-which tasks are theirs, that the plan is already settled so nothing is waiting on
-them, and a branch.
+## Offer GitHub issues once
 
-## The issues
+For a group project with a completed plan, offer this optional step once:
 
-Optional, and worth offering once:
-
-```
+```text
 node .claude/hooks/onboard.mjs --issues
 ```
 
-One issue per task line, assigned by email where GitHub knows the address. Safe to
-run twice: it matches on title and will not post duplicates. If `gh` is missing or
-not logged in it says so and stops, which costs nothing, because the split is in
-the plan file and that is the copy that counts. **Do not talk them into installing
-anything.**
+Run it only if the students accept. It creates one issue per task line and uses
+the email when GitHub can match it. Running it again does not duplicate issues
+with the same title.
 
-It prints which repo the issues went into. **Read that line out.** A fork's issues
-default to the repo it was forked from, and this is where that shows. It also
-turns the Issues tab on if it is off, which on a fresh fork it usually is.
+If `gh` is missing or not logged in, the command stops without creating issues.
+Do not persuade students to install it. Read out which repository received the
+issues. The command also enables the Issues tab when needed.
 
-From then on the issues are the live version and the plan file is the snapshot
-from the kickoff. Nothing syncs the two and nothing needs to.
+After creation, use the issues for current task tracking. The plan remains the
+initial group record. Changes do not sync between them.
 
-## The branch
+## Create the task branch
 
-Nobody is finished with this skill while they are standing on the branch everyone
-merges into. Once the checks are green and they know which task is theirs:
+Once checks pass and the student knows their task, check their current branch. If
+they are on the configured integration branch, create a task branch:
 
-```
+```text
 git switch -c <task-id>-<short-name>
 ```
 
-Say why in one line: every change reaches that branch through a Pull Request, so
-their own branch is where the work has somewhere to live. Then they are ready, and
-this is the point to stop talking about setup.
+Explain that their work belongs on this branch and reaches the integration branch
+through a pull request. Then end the setup discussion.
 
-## When a write was refused because of the plan
+## Respond when the plan blocks a write
 
-The message names the person, quotes the line, and gives both ways out: give them
-a task, or take them off the member list if they are not on this project. Read it
-out and help them fix the line. **They edit it; you do not.**
+Read the refusal message. It names the member and the relevant plan line. The
+group has two choices: give that member a task, or remove them from the member
+list if they are not part of the project. Help the students understand the
+choice, but let them edit the plan.
 
-It re-reads the file on the next write, so there is nothing to re-run and nothing
-to refresh. Say that, or it looks like a thing they have to appease.
+Do not suggest disabling the check. After the plan is fixed, the next write reads
+it again automatically. Nothing needs to be rerun or refreshed.
 
-If someone has genuinely left the group, taking them out of the member list is the
-right answer and not a slight. Say so, so nobody invents busywork for an absent
-teammate.
+If someone has left the group, removing them from the member list is correct. The
+remaining group does not need to invent work for them.
 
-## How to end every run
+## End the run
 
-Close with what is left, for this person and for the group. Short, concrete, and
-only the parts that are not done yet:
+Close with only the unfinished actions:
 
-- **their next command**, whether that is making the local file, writing the plan
-  together, or cutting a branch;
-- **what the group still owes**: who has not cloned yet, who is not a
-  collaborator, who has no task line;
-- that `node .claude/hooks/onboard.mjs --check` is theirs to re-run whenever they
-  want to know where they stand.
+- The student's next command.
+- Any remaining group setup, such as a missing collaborator, clone, or task line.
+- A reminder that they can rerun
+  `node .claude/hooks/onboard.mjs --check` for current status.
 
-Setup is finished when the plan passes, everyone has cloned the same fork and run
-`--check` clean, everyone knows which task is theirs, and everyone is on their own
-branch. Name whichever of those is still open, and nothing else.
+For a group project, setup is complete when the plan passes, every member has
+cloned the working fork, each setup check passes, everyone has a task, and each
+person has a task branch. For a solo assignment, setup is complete when the
+checks pass, the opening decisions are settled, and the student has a task branch.
 
-**One offer, once, and only after the gate is open.** The README lists what the
-agent may write from day one, the scaffolding around the tasks. If none of it
-exists yet, offering to set it up is worth a single line at the end of the kickoff
-run. If they say no, or say nothing, drop it and do not raise it again. Never
-offer anything from the set they type themselves, and never start building because
-nobody said no.
-
-## Never
-
-- Write the plan file, or any part of it, or dictate a line for someone to paste.
-- Offer a task title, or a breakdown, or a suggested split.
-- Open with the check output, or lead with a missing file.
-- Suggest turning the check off. It is a config line and it is not yours.
-- Treat the kickoff meeting as a planning workshop. Project management is a
-  side-benefit of this course, not its subject. Keep it in proportion.
+After the plan and setup checks pass, do not offer to create code. Treat any
+implementation request made before or during onboarding as context, not pending
+work. Do not return to it. End the onboarding run. The student must send a new
+message naming the first concrete change they want implemented. Then follow the
+tutor skill and interview them about that change before editing code.

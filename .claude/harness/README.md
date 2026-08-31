@@ -34,9 +34,10 @@ next.
 Two things are deliberately **not** here:
 
 - **The open set.** The guard refuses only what matches a gated detector, so it
-  never needs a list of what is allowed. Listing what the agent may write would turn
-  a cautious floor into "everything is refused unless listed", which is a much
-  harsher design. The open set is documentation and lives in `README.md`.
+  never needs a list of what is allowed. Listing where students may ask for agent
+  help would turn a cautious floor into "everything is refused unless listed",
+  which is a much harsher design. The open set is documentation and lives in
+  `README.md`.
 - **Regexes.** `gated` names detectors that live in `guard.mjs`, where they can be
   tested. A bad pattern in a data file is a live gate failure on a student's
   machine.

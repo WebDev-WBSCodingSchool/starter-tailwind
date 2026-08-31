@@ -105,18 +105,20 @@ export function denyReason({ config, rel, blocked, open }) {
   // block does not read as the agent having been switched off.
   if (config.unlockRoute === false) {
     lines.push(
-      `Everything that is not this assignment's learning goal is still yours to ` +
-        `help with — README.md says what. This refusal is not you being switched off.`,
+      `The student may still ask for help with anything outside this assignment's ` +
+        `learning goal. README.md says what. Wait for an explicit request, ask a ` +
+        `project-specific question, and wait for the answer before editing code.`,
     );
   } else {
     lines.push(
       open.size
-        ? `This student has already signed off: ${[...open].join(", ")} — write those ` +
-            `freely. Everything this assignment does not hold back is yours from day ` +
-            `one, for everyone — README.md says what.`
-        : `This student has signed nothing off yet. Everything this assignment does ` +
-            `not hold back is still yours from day one — README.md says what — so ` +
-            `there is plenty you can still do.`,
+        ? `This student has already signed off: ${[...open].join(", ")}. The write ` +
+            `check no longer blocks those categories. That is not a request to edit ` +
+            `them. Wait for an explicit request, ask a project-specific question, ` +
+            `and wait for the answer before editing code.`
+        : `This student has signed nothing off yet. They may still ask for help with ` +
+            `code this assignment does not protect. README.md says what. Wait for ` +
+            `their request and ask a project-specific question before editing.`,
     );
   }
 

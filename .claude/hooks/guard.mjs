@@ -87,6 +87,53 @@ const DETECTORS = {
     // initializer rather than somewhere further down the file.
     /useState\s*\(\s*(\(\s*\)\s*=>|function\s*\(\s*\))[\s\S]{0,200}?(localStorage|sessionStorage|getItem)/,
   ],
+  // TypeScript in a React app: the annotations, not the code they sit in. The
+  // agent writes the components, the state wiring and the plumbing untyped —
+  // every type in them is the student's. Note what is NOT here: JSX itself,
+  // `className`, props destructured without an annotation, and `import type`,
+  // which names a type the student already wrote rather than writing one.
+  typedReact: [
+    // A declared shape: `type ArtworkProps = {`, `interface Note {`. The
+    // capitalised name is what keeps `import type { Artwork } from "./x"` out —
+    // there, `type` is followed by a brace rather than by a name.
+    /\b(type|interface)\s+[A-Z]\w*\s*[=<{]/,
+    // A type argument on a hook call: `useState<Artwork[]>(`, `useRef<HTMLElement>(`.
+    // Both the closing `>` and the `(` are required, so `useCount < max` cannot fire.
+    /\buse[A-Z]\w*\s*<[^<>()\n]{1,80}>\s*\(/,
+    // The annotation on a destructured parameter — a component's props type.
+    /\}\s*:\s*[A-Z][\w.]*(\[\]|<[^>\n]*>)?\s*\)/,
+    // The annotation on a plain parameter: `(artwork: Artwork)`. An object
+    // literal cannot match here: it opens with `{`, not with an identifier.
+    /\(\s*\w+\s*:\s*[A-Z][\w.]*(<[^>\n]*>)?(\[\])?\s*[,)=]/,
+    // A return type, which has to be followed by the body it belongs to.
+    /\)\s*:\s*(Promise\s*<[^\n]*>|[A-Z][\w.]*(<[^>\n]*>)?(\[\])?)\s*(\{|=>)/,
+    // The same three shapes again for the primitives, which the capitalised
+    // patterns above cannot see. `(q: string)` is a typed parameter and nothing
+    // else — JavaScript has no construct of that shape, so the narrowness that
+    // protects the patterns above is not needed here.
+    /\(\s*\w+\s*:\s*(string|number|boolean|bigint|symbol|void|unknown|any|null|undefined)\b/,
+    /\)\s*:\s*(string|number|boolean|bigint|symbol|void|unknown|any)\s*(\{|=>)/,
+    // An inline object type on a destructured parameter: `({ query }: { query: string })`.
+    /\}\s*:\s*\{/,
+    // React's own type names, wherever they are annotated.
+    /:\s*(React\.)?(FC|FunctionComponent|ReactNode|ReactElement|PropsWithChildren|ChangeEvent|FormEvent|MouseEvent|KeyboardEvent|Dispatch|SetStateAction|RefObject)\b/,
+    /:\s*JSX\.Element\b/,
+    // A schema becoming a type — the bridge between the two gated topics.
+    /\bz\s*\.\s*infer\s*</,
+  ],
+  // Runtime validation: building a schema and running data through it. Note what
+  // is NOT here: `import { z } from "zod"`, which is plumbing, and `z.infer`,
+  // which produces a type and so belongs to typedReact.
+  runtimeValidation: [
+    /\bz\s*\.\s*(object|string|number|boolean|array|union|discriminatedUnion|literal|enum|nativeEnum|coerce|nullable|nullish|optional|record|tuple|date|any|unknown|never|instanceof)\b/,
+    // `.parse` and `.safeParse`. The lookbehind is what keeps `JSON.parse` out:
+    // reading localStorage is open plumbing throughout a project like this, and
+    // it is the one collision that would block it. The lookbehind spans the
+    // whitespace too, so a chain broken over two lines by a formatter is still
+    // recognised as JSON.parse rather than as a schema.
+    /(?<!JSON\s{0,20})\.\s*(parse|safeParse|parseAsync|safeParseAsync)\s*\(/,
+    /\bZodError\b/,
+  ],
   // The two categories of a first HTML/CSS project, where the deliverable is
   // the taught material end to end. They are the widest detectors here, and
   // they are still floors: on an assignment that gates these, the agent's open
