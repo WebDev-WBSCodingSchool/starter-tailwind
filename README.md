@@ -42,17 +42,17 @@ of from the inside.
 
 ## The requirements
 
-| id | what it asks for |
-| --- | --- |
-| FR001 | A design settled before you write markup: your own Figma wireframe, the Dream Home template, or something else your instructor has okayed. |
-| FR002 | One public GitHub repo for the whole project, so the code can be read. No instructors added as collaborators. |
-| FR003 | The finished site published on GitHub Pages. |
-| **FR004** | The page structured with semantic HTML, meaning elements chosen for what the content *is*, not for how it will look. |
-| FR005 | Tailwind CSS doing the styling, loaded from the CDN. Already wired up in `index.html`. |
-| **FR006** | Mobile-first. The phone layout is the one you write plainly; wider screens are prefixed variants on top of it. |
-| FR007 | Every change to `main` arrives through a Pull Request. |
-| FR008 | The design personalised: your own copy, colours and images, not a grey template with the placeholder text still in it. |
-| **FR009** | Layout chosen deliberately. Flexbox and Grid both, wherever each one fits, the way a real project mixes them, and you able to say why, section by section. |
+| id        | what it asks for                                                                                                                                               |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR001     | Settle on a design first: your own Figma wireframe, the Dream Home template, or something else your instructor has okayed.                                     |
+| FR002     | One shared public repo for the team. Do not add instructors as collaborators.                                                                                  |
+| FR003     | Deploy the finished project using GitHub Pages.                                                                                                                |
+| **FR004** | **The page structured with semantic HTML, meaning elements chosen for what the content _is_, not for how it will look.**                                       |
+| FR005     | Tailwind CSS doing the styling, loaded from the CDN. Already wired up in `index.html`.                                                                         |
+| **FR006** | **Write standard classes for mobile layouts first; use breakpoint prefixes for wider screens.**                                                                |
+| FR007     | All updates to `main` must merge through Pull Requests.                                                                                                        |
+| FR008     | Personalize copy, colors, and images beyond placeholder templates.                                                                                             |
+| **FR009** | **Choose layout deliberately. Flexbox and Grid both, wherever each one fits, the way a real project mixes them, and you able to say why, section by section.** |
 
 **Bold = you type this one yourself.** For the others, you may ask the agent to
 help you implement them.
@@ -61,19 +61,19 @@ FR004, FR006 and FR009 are not one person's job. They apply to all eight section
 at once, so they are not what gets split up. What gets split up is the
 **sections**:
 
-| id | the section |
-| --- | --- |
-| **T1** | Header and navigation |
-| **T2** | Hero and property search bar |
+| id     | the section                                   |
+| ------ | --------------------------------------------- |
+| **T1** | Header and navigation                         |
+| **T2** | Hero and property search bar                  |
 | **T3** | "We help you find" section with the stats row |
-| **T4** | "Why choose us" feature cards |
-| **T5** | Popular residences — the property cards |
-| **T6** | Testimonials |
-| **T7** | Get-help call to action, with its form |
-| **T8** | Footer |
+| **T4** | "Why choose us" feature cards                 |
+| **T5** | Popular residences — the property cards       |
+| **T6** | Testimonials                                  |
+| **T7** | Get-help call to action, with its form        |
+| **T8** | Footer                                        |
 
 **These eight are the tasks**, and wherever the rest of this page says "the tasks
-marked in bold", it means these. Every one of them is markup *and* styling, and
+marked in bold", it means these. Every one of them is markup _and_ styling, and
 every one of them has to satisfy FR004, FR006 and FR009 on its own. They all live
 in `index.html`.
 
@@ -224,7 +224,7 @@ the things a group usually discovers it disagreed about on day four:
   the wireframe and name them now.
 - **Where do your breakpoints go?** Pick them once, together, so eight sections do
   not arrive with eight different ideas of "tablet".
-- **What does *done* mean for one section?** Concretely enough that you know when
+- **What does _done_ mean for one section?** Concretely enough that you know when
   to open the Pull Request rather than keep polishing.
 
 Write down what you land on. It does not have to be right. It has to be shared.
@@ -234,10 +234,12 @@ prints, and each of you again on the task you took:
 
 ```markdown
 ## Who's in the group
+
 - Jane Student — jane.student@mail.com
 - Mo Ahmadi — mo.ahmadi@mail.com
 
 ## The split
+
 - Login page (T1) — Jane
 - Settings page (T2) — Mo Ahmadi
 ```
