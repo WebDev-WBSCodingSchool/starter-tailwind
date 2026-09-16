@@ -13,9 +13,9 @@
 //
 // It writes nothing into the repo. Both exceptions are about the group's own copy
 // on GitHub, and both only when asked: `--issues` creates the issues (and turns on
-// the Issues tab, which forks ship with off), and `--check` points `gh` at the repo
-// you are standing in — one line of local git config, never committed, on a setting
-// whose shipped default sends your first Pull Request to the wrong repository.
+// the Issues tab, if it happens to be off), and `--check` points `gh` at the repo
+// you are standing in — one line of local git config, never committed, in case the
+// clone left it pointed somewhere else.
 
 import { existsSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -32,41 +32,12 @@ const has = (f) => argv.includes(f);
 
 // --- Which repo is the base? -----------------------------------------------
 //
-// Three separate ways work lands in the wrong repository. Only the first is
-// preventable from here; the other two are caught rather than stopped.
-//
-// ONE: `gh` resolves exactly one repo as "the base" for `pr create`, `issue
-// create` and `issue list`, and on a fork that is not the fork:
-//
-//   gh repo clone <fork>   adds an `upstream` remote pointing at the parent and
-//                          writes remote.upstream.gh-resolved=base
-//
-// So in a gh-cloned fork every `gh` command targets the repo the group forked
-// FROM, before anyone types anything. Verified 2026-08-07 against gh 2.97 and a
-// real fork. A plain `git clone` leaves no gh-resolved and `gh` then resolves to
-// origin, so only the gh-cloned path is preset wrongly — but the fix is the same
-// either way and costs nothing where it is already right, so it runs
-// unconditionally rather than detecting which clone happened.
-//
-// TWO: after a push to a fork, GitHub's own "Compare & pull request" button
-// opens a compare view with the base set to the PARENT. That is a website
-// default. No git config reaches it, `gh repo set-default` does not change it,
-// and nothing here can prevent it — so this warns before, and looks for the
-// result after (an open PR on the parent whose head is this fork).
-//
-// THREE, and this is the one run 2 reported: **a push that succeeds into the
-// wrong repo, silently.** `git push` follows `branch.<name>.remote`, which is
-// origin, so the only question is whether origin is where the group works. A
-// student who cloned the assignment repo finds out at once — 403, nothing
-// happens, and the message says so. Someone who can WRITE to it does not: the
-// branch lands in a repo nobody else is looking at, git prints success, and the
-// group hunts for a branch that is not where they expect it.
-//
-// `viewerPermission` cannot see that one, because the person pushing has every
-// permission there is. The signal is the repo's shape instead: **no parent, but
-// forks.** You are standing in the repo everybody else forked. Checked below,
-// and it is the branch with no `git` symptom at all — nothing errors, nothing
-// warns, and the only evidence is a branch that is not where it should be.
+// Each group creates its own repo from the WBS CODING SCHOOL GitHub template
+// (the "Use this template" button), so unlike a fork there is no parent repo
+// `gh` could resolve instead of origin. The one real failure mode left is a
+// student who cloned the WBS CODING SCHOOL template directly instead of
+// creating and cloning their own copy: they have read-only access there, so a
+// push fails at once and a Pull Request would target the wrong repository.
 //
 // `set-default` only accepts a repo that is already a git remote, so this cannot
 // point anywhere the student did not clone from. It writes
@@ -85,7 +56,7 @@ function useOriginAsBase() {
   // Read AFTER set-default, so this reports origin rather than whatever the
   // clone had been pointed at.
   return JSON.parse(
-    gh(["repo", "view", "--json", "nameWithOwner,parent,forkCount,viewerPermission,hasIssuesEnabled"]),
+    gh(["repo", "view", "--json", "nameWithOwner,viewerPermission,hasIssuesEnabled"]),
   );
 }
 
@@ -136,12 +107,12 @@ if (block && text === null) {
 // conversation with an instructor and belongs to the starter-repo generator,
 // not to a hardcoded list in here.
 //
-// The third was two for a while. It joined them because the fork model makes it
-// universal: every assignment is distributed as a fork, so every assignment
-// ships with `gh` pointed at the repo the student must not write to.
+// The third was two for a while. It joined them because every assignment is
+// distributed as a GitHub template, so every assignment ships with a risk that
+// `gh` is pointed at the WBS CODING SCHOOL template instead of the group's own.
 //
 // Two things print here that are NOT checks and never fail: who can push to the
-// fork, and which branch they are on. Both are things the group has to know and
+// repo, and which branch they are on. Both are things the group has to know and
 // neither is something a script gets to have an opinion about — who is in the
 // group is theirs, and standing on the integration branch at kickoff is correct.
 
@@ -207,43 +178,25 @@ if (has("--check")) {
     const mine = ["ADMIN", "MAINTAIN", "WRITE"].includes(repo.viewerPermission);
 
     if (!mine) {
-      // They cloned the repo they were meant to fork. No setting fixes this: the
-      // work is in a repo they cannot push to, and the longer they go the more
-      // there is to move.
+      // They cloned the repo they were meant to create their own copy from. No
+      // setting fixes this: the work is in a repo they cannot push to, and the
+      // longer they go the more there is to move.
       console.log(`  ✗ this is ${repo.nameWithOwner}, and you only have read access to it`);
-      console.log(`    That is the repo to fork, not a copy of it. Fork it, add your group as`);
-      console.log(`    collaborators, and clone the fork — your commits here have nowhere to`);
+      console.log(`    That is the WBS CODING SCHOOL template, not your group's copy. Create`);
+      console.log(`    your own repo from it ("Use this template" on GitHub), add your group`);
+      console.log(`    as collaborators, and clone that — your commits here have nowhere to`);
       console.log(`    push, and a Pull Request from here goes to somebody else's repository.`);
-      failed = true;
-    } else if (!repo.parent && repo.forkCount > 0) {
-      // Case THREE. You can write here, so nothing will ever stop you — and the
-      // people who forked this are working somewhere else. Naming the forks is
-      // the whole message: one of them is almost certainly the group's, and
-      // seeing it listed is faster than any explanation of the fork model.
-      console.log(`  ✗ ${repo.nameWithOwner} is the repo everybody else forked`);
-      let forks = [];
-      try {
-        forks = JSON.parse(gh(["api", `repos/${repo.nameWithOwner}/forks`, "--jq", "[.[].full_name]"]));
-      } catch {
-        /* named below as a count instead */
-      }
-      if (forks.length) for (const f of forks) console.log(`    fork: ${f}`);
-      else console.log(`    ${repo.forkCount} fork${repo.forkCount > 1 ? "s" : ""} exist`);
-      console.log(`    You can push here, so nothing will stop you — and that is the problem.`);
-      console.log(`    A branch pushed here lands where nobody is looking, git says it worked,`);
-      console.log(`    and the group goes hunting for it. Work in the fork instead. If a branch`);
-      console.log(`    is already here: git push <the fork's URL> <branch>, then delete it here.`);
       failed = true;
     } else {
       console.log(`  ✓ ${repo.nameWithOwner} — issues and Pull Requests go there`);
 
-      // Who else can push here? The fork model puts the whole group in ONE repo,
-      // so a member who was never added as a collaborator is not blocked by
-      // anything visible — they find out at their first push, which is days in
-      // and never at a convenient moment. Reported, never a failure: who belongs
-      // in the group is the group's business and this script cannot know it.
-      // Listing collaborators needs push access itself, so a student on a repo
-      // that is not theirs simply gets nothing here, which is the right amount.
+      // Who else can push here? The whole group works in ONE repo, so a member
+      // who was never added as a collaborator is not blocked by anything
+      // visible — they find out at their first push, which is days in and never
+      // at a convenient moment. Reported, never a failure: who belongs in the
+      // group is the group's business and this script cannot know it. Listing
+      // collaborators needs push access itself, so a student on a repo that is
+      // not theirs simply gets nothing here, which is the right amount.
       try {
         const who = JSON.parse(gh(["api", `repos/${repo.nameWithOwner}/collaborators`, "--jq", "[.[].login]"]));
         console.log(`    ${who.length === 1 ? "1 person can" : `${who.length} people can`} push here: ${who.join(", ")}`);
@@ -251,50 +204,13 @@ if (has("--check")) {
       } catch {
         /* no push access to ask with, offline, rate limited — all the same silence */
       }
-
-      if (repo.parent) {
-        // The website's dropdown is not something this script can set. Say it
-        // once, name both repos, and let them recognise it when they see it.
-        const parent = `${repo.parent.owner.login}/${repo.parent.name}`;
-        console.log(`    You forked it from ${parent}, and GitHub's own`);
-        console.log(`    "Compare & pull request" button still offers ${parent} as the base.`);
-        console.log(`    Check that dropdown says ${repo.nameWithOwner} before you open a`);
-        console.log(`    Pull Request on the website. It is the easiest mistake on this project.`);
-
-        // ...and the same thing after the fact, because a warning is all the
-        // above can be. This is the half that catches what actually happened: a
-        // Pull Request sitting on the parent is invisible from the fork, which is
-        // the only page the group ever looks at. Run 2's lasted three minutes
-        // because a human happened to notice.
-        //
-        // Its own try: a parent that has gone private, or a rate limit, must not
-        // erase the ✓ above — the base was still fixed either way.
-        try {
-          const owner = repo.nameWithOwner.split("/")[0];
-          const stray = JSON.parse(
-            gh(["pr", "list", "-R", parent, "--state", "open", "--json", "url,headRefName,headRepositoryOwner"]),
-          ).filter((p) => p.headRepositoryOwner?.login === owner);
-          for (const p of stray) {
-            console.log(`  ✗ ${p.headRefName} has an open Pull Request against ${parent}`);
-            console.log(`    ${p.url}`);
-            console.log(`    That is the repo you forked, not yours. Close it, then open the`);
-            console.log(`    same one on ${repo.nameWithOwner} — your branch is already pushed,`);
-            console.log(`    so nothing is lost and no commit has to be redone.`);
-            failed = true;
-          }
-        } catch {
-          // Silent. A group with no stray PR is the normal case, and this line
-          // would fire for everyone whose parent stopped being readable.
-        }
-      }
     }
   } catch (err) {
     // No gh, not logged in, offline, no origin yet. Nothing else depends on this,
-    // so it is not a failure — but the warning is worth saying anyway, because
-    // the website defaults the same way with or without `gh` installed.
+    // so it is not a failure — but the warning is worth saying anyway.
     console.log(`  – couldn't check where your Pull Requests would go (${ghWhy(err)})`);
-    console.log(`    If you forked this repo: when you open a PR on GitHub, the base repo`);
-    console.log(`    dropdown defaults to the one you forked from. Set it to your own fork.`);
+    console.log(`    Make sure you cloned your group's own repo, not the WBS CODING SCHOOL`);
+    console.log(`    template.`);
   }
 
   // 4. Wire the pre-commit hook. Local, per clone, never committed — same shape as
@@ -364,16 +280,14 @@ if (has("--issues")) {
   }
 
   // This does NOT rely on --check having been run first. `gh issue create`
-  // resolves the same base as `gh pr create`, so in a gh-cloned fork it would
-  // file the group's whole split in the repo they forked from. Run 2 shows this
-  // is survivable rather than certain — its issues landed on the fork correctly,
-  // which is what a plain `git clone` produces — but the poisoned case is real
-  // and six issues in somebody else's tracker is six things to undo by hand.
+  // resolves the same base as `gh pr create`, so a stale gh default would file
+  // the group's whole split in the wrong repo. Six issues in somebody else's
+  // tracker is six things to undo by hand.
   //
-  // The Issues tab may also be off. Whether a fork ships that way is NOT settled:
-  // six forks checked on 2026-08-07 all had it off, and run 2's fork had it on.
-  // Either way the cost of asking is one call and the fix is one more, so this
-  // does not depend on knowing which — it reads the flag rather than assuming it.
+  // The Issues tab may also be off. The WBS CODING SCHOOL template ships it
+  // off, and a repo created from a template does not necessarily inherit that
+  // setting — so this does not assume either way, it reads the flag and fixes
+  // it if needed.
   let repo = null;
   try {
     repo = useOriginAsBase();
@@ -382,9 +296,9 @@ if (has("--issues")) {
       console.log(`Turned the Issues tab on for ${repo.nameWithOwner} — it was switched off.`);
     }
   } catch (err) {
-    // Not an admin on the fork, offline, no origin. Carry on: the calls below
-    // fail with their own messages if this was the reason, and stopping here
-    // would also stop the case where the base was already right.
+    // Not an admin here, offline, no origin. Carry on: the calls below fail with
+    // their own messages if this was the reason, and stopping here would also
+    // stop the case where the base was already right.
     console.log(`Couldn't confirm which repo to use, so this may land somewhere unexpected:`);
     console.log(`${ghWhy(err)}`);
   }

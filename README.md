@@ -1,11 +1,12 @@
 # Figma and Tailwind CSS — 003 Intro to JS
 
-Five days (full time) / ten days (part time). Group project, mandatory
+Two days (full time) / ten days (part time). Group project, mandatory
 presentation at the end.
 
-This repo is your starting point. **Fork it once for your group** and add your
-team members as collaborators. One fork, everyone works in it, and every change
-merges to `main` through a Pull Request.
+This repo is your starting point. **Use this template to create your own repo
+once for your group** (the green "Use this template" button on GitHub) and add
+your team members as collaborators. One repo, everyone works in it, and every
+change merges to `main` through a Pull Request.
 
 **Pick your design first, before anything else.** Three ways to go, and they are
 worth the same:
@@ -27,9 +28,9 @@ own sections and keep the count roughly the same.
 Five stages. Each stage names what ends it, which is the part easy to lose sight
 of from the inside.
 
-1. **Fork it, clone it, run `/onboard`.** Ends when the only open item is
-   `PLAN.md`. That is stage 2, and it stays open until you get there.
-   Everything above it should pass.
+1. **Create your repo from this template, clone it, run `/onboard`.** Ends when
+   the only open item is `PLAN.md`. That is stage 2, and it stays open until you
+   get there. Everything above it should pass.
 2. **Meet, and write `PLAN.md` together.** Ends when the check passes: every
    member listed has a task line, and your own git email is one of them. Until
    then the agent writes no code for anyone in the group.
@@ -265,7 +266,7 @@ plan, never whether it was any good.
 ## Splitting the work
 
 `PLAN.md` is the snapshot from the kickoff. **From then on your tasks are GitHub
-Issues on your fork.** `/onboard` can create them from your task lines, or make
+Issues on your repo.** `/onboard` can create them from your task lines, or make
 them by hand. The issues are the live version and nothing syncs them back.
 
 Write them yourselves either way. The agent will not give you a breakdown. Once

@@ -29,10 +29,10 @@ node .claude/hooks/onboard.mjs --check
 ```
 
 The command reports whether the student is at the repository root, whether their
-Git email matches the plan, and whether pull requests point to the working fork.
-It also tries to set the local GitHub CLI default and install the repository's
-pre-commit hook. Those changes stay in local Git configuration and are not
-committed.
+Git email matches the plan, and whether they are working in their own repo
+rather than the template from WBS CODING SCHOOL. It also tries to set the local GitHub CLI
+default and install the repository's pre-commit hook. Those changes stay in
+local Git configuration and are not committed.
 
 Do not begin by pasting the check output. Use it to choose the relevant path
 below. When something fails, explain one problem, why it matters, and the next
@@ -73,20 +73,17 @@ message.
 
 ## Fix the wrong repository first
 
-The check can find two repository problems:
+The check can find this repository problem:
 
-- The student has read-only access. They cloned the source repository instead of
-  a fork. They cannot push there, and a pull request would target someone else's
-  repository.
-- The student is in the source repository that other people forked. A push may
-  succeed, but it puts their branch outside the group's working fork.
+- The student has read-only access. They cloned the WBS CODING SCHOOL template
+  repository instead of creating and cloning their own copy. They cannot push
+  there, and a pull request would target someone else's repository.
 
-Explain that the existing work is not lost and can be moved after the correct
-fork is cloned.
+Explain that the existing work is not lost and can be moved after the group's
+own repo is cloned.
 
-The script cannot detect every fork of a fork. A group uses one fork and adds all
-members as collaborators. Before a new member clones, name the exact URL the
-group uses.
+A group uses one repo, created once from the template, and adds all members as
+collaborators. Before a new member clones, name the exact URL the group uses.
 
 ## Complete local setup
 
@@ -103,17 +100,14 @@ You may help fully with setup because it is not code the student must implement.
   contain credentials.
 - Mention required accounts early when registration may delay the first task.
 
-## Confirm the working fork
+## Confirm the working repo
 
-The group works in one fork:
+The group works in one repo, created once from the template:
 
-- One member owns the fork and adds the others as collaborators.
+- One member creates the repo from the template and adds the others as
+  collaborators.
 - `--check` lists who can push. Compare that list with the group.
-- Every member clones that same fork, not a separate fork and not the source
-  repository.
-
-GitHub's "Compare & pull request" button may select the source repository as the
-base. Warn the group once during setup so they know to select their working fork.
+- Every member clones that same repo, not the template from WBS CODING SCHOOL.
 
 ## Handle a solo assignment
 
@@ -244,8 +238,8 @@ Close with only the unfinished actions:
   `node .claude/hooks/onboard.mjs --check` for current status.
 
 For a group project, setup is complete when the plan passes, every member has
-cloned the working fork, each setup check passes, everyone has a task, and each
-person has a task branch. For a solo assignment, setup is complete when the
+cloned the group's own repo, each setup check passes, everyone has a task, and
+each person has a task branch. For a solo assignment, setup is complete when the
 checks pass, the opening decisions are settled, and the student has a task branch.
 
 After the plan and setup checks pass, do not offer to create code. Treat any
