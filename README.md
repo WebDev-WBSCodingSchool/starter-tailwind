@@ -1,45 +1,49 @@
-# Figma and Tailwind CSS — 003 Intro to JS
+# Figma and Tailwind CSS
 
-Two days (full time) / ten days (part time). Group project, mandatory
-presentation at the end.
+#### Duration: Two days (full time) / ten days (part time)
+
+#### Presentation: Mandatory, at a time set by your instructor
+
+#### Format: Group project
 
 This repo is your starting point. **Use this template to create your own repo
 once for your group** (the green "Use this template" button on GitHub) and add
 your team members as collaborators. One repo, everyone works in it, and every
 change merges to `main` through a Pull Request.
 
-**Pick your design first, before anything else.** Three ways to go, and they are
-worth the same:
+**Pick your design first, before anything else.** Three ways to go, and they
+are worth the same:
 
-- Design your own wireframe in Figma. Header with navigation, a main part built
-  out of sections, a footer.
+- Design your own wireframe in Figma. Header with navigation, a main part
+  built out of sections, a footer.
 - Re-create the [Find Your Dream Home
   template](https://www.figma.com/design/cJMWiom7k05yqZVF5F5ztJ/Find-Your-Dream-Home-Website-UI-Template--Community-?node-id=0-1)
-  as closely as you can. The tasks below are named after its sections, so this is
-  the easiest path.
-- Bring a design you found somewhere else. Check with your instructor first, who
-  will mostly say yes if it is not wildly out of scope.
+  as closely as you can. The tasks below are named after its sections, so
+  this is the easiest path.
+- Bring a design you found somewhere else. Check with your instructor first,
+  who will mostly say yes if it is not wildly out of scope.
 
-If you go your own way, the eight tasks below still fit: rename them after your
-own sections and keep the count roughly the same.
+If you go your own way, the eight tasks below still fit: rename them after
+your own sections and keep the count roughly the same.
 
-## Where you are
+## Get started
 
-Five stages. Each stage names what ends it, which is the part easy to lose sight
-of from the inside.
+There are five stages. Each one names what ends it, since that's the part
+that's easy to lose sight of from the inside.
 
-1. **Create your repo from this template, clone it, run `/onboard`.** Ends when
-   the only open item is `PLAN.md`. That is stage 2, and it stays open until you
-   get there. Everything above it should pass.
-2. **Meet, and write `PLAN.md` together.** Ends when the check passes: every
-   member listed has a task line, and your own git email is one of them. Until
-   then the agent writes no code for anyone in the group.
-3. **Pick a task, cut a branch.** `git switch -c <task-id>-<short-name>`. Ends
-   when you have a branch for the work instead of committing to `main`.
-4. **Write it, commit it, explain it.** Ends when the sign-off is recorded. It
-   tells you what just opened up.
-5. **Open a Pull Request.** Ends when it is merged. Then return to stage 3 with
-   the next task.
+1. Create your repo from this template, clone it, and run `/onboard`. This
+   ends when the only open item is `PLAN.md`. That's stage 2, and it stays
+   open until you get there. Everything above it should pass.
+2. Meet, and write `PLAN.md` together. This ends when the check passes: every
+   member listed has a task line, and your own git email is one of them.
+   Until then the agent writes no code for anyone in the group.
+3. Pick a task, and cut a branch: `git switch -c <task-id>-<short-name>`.
+   This ends when you have a branch for the work instead of committing to
+   `main`.
+4. Write it, commit it, explain it. This ends when the sign-off is recorded,
+   and it tells you what just opened up.
+5. Open a Pull Request. This ends when it is merged. Then return to stage 3
+   with the next task.
 
 ## The requirements
 
@@ -88,66 +92,75 @@ many.
 
 ## The setup
 
-This project is HTML files, Tailwind pulled in from the CDN in a `<script>` tag,
-and your own images. Nothing that has to be installed. No `npm install`, no build
-step, no Tailwind CLI. The moment one of you adds one, every other clone stops
-working until everyone has run the install, and finding that out on day three
-costs the group a day it does not have. If you get there on your own and want a
-small library from a CDN, a date picker or a bit of animation, that is still one
-`<script>` tag and nothing to install, so it is fine. JavaScript is not what this
-project is for: the site has to stand up without it. The current year in the
-footer, a library you dropped in, some whimsy: cherries on top, after the pages
-are done.
+This project is HTML files, Tailwind pulled in from the CDN in a `<script>`
+tag, and your own images. Nothing that has to be installed:
 
-**Install the Tailwind CSS IntelliSense extension** (`bradlc.vscode-tailwindcss`)
-in VS Code. It autocompletes utility names and shows you the actual CSS behind one
-when you hover it, which is the fastest way to stop guessing. It needs a stylesheet
-carrying the Tailwind directive to switch itself on, which is why `styles.css`
-exists and is linked. That file is also where anything Tailwind cannot express
-belongs.
+- **No `npm install`, no build step, no Tailwind CLI.** The moment one of you
+  adds one, every other clone stops working until everyone has run the
+  install, and finding that out on day three costs the group a day it does
+  not have.
+- If you get there on your own and want a small library from a CDN, a date
+  picker or a bit of animation, that's still one `<script>` tag and nothing
+  to install, so it's fine.
+- JavaScript is not what this project is for: the site has to stand up
+  without it. The current year in the footer, a library you dropped in, some
+  whimsy: cherries on top, after the pages are done.
 
-Nothing in this project is created locally and kept out of git. Everything you
-make, including your images, is committed.
+**Install the Tailwind CSS IntelliSense extension**
+(`bradlc.vscode-tailwindcss`) in VS Code. It autocompletes utility names and
+shows you the actual CSS behind one when you hover it, which is the fastest
+way to stop guessing. It needs a stylesheet carrying the Tailwind directive
+to switch itself on, which is why `styles.css` exists and is linked. That
+file is also where anything Tailwind cannot express belongs.
+
+Nothing in this project is created locally and kept out of git. Everything
+you make, including your images, is committed.
 
 ## What you type, and where the agent can help
 
-Two things are yours. **The markup**, meaning which element each part of the page
-is made of and how they nest. And **the styling**, meaning the utility classes
-that turn that markup into the design, including the responsive and state
-variants, plus any hand-written CSS in `styles.css` for what Tailwind cannot say.
-That is the whole module: a page whose structure means something, dressed by
-classes you chose. Neither is a thing you learn by reading someone else's, which
-is why the agent will not write either one for you until you have written a
-section yourself.
+Two things are yours:
+
+- **The markup**, meaning which element each part of the page is made of and
+  how they nest.
+- **The styling**, meaning the utility classes that turn that markup into
+  the design, including the responsive and state variants, plus any
+  hand-written CSS in `styles.css` for what Tailwind cannot say.
+
+That's the whole module: a page whose structure means something, dressed by
+classes you chose. Neither is a thing you learn by reading someone else's,
+which is why the agent will not write either one for you until you have
+written a section yourself.
 
 The two are separate categories, and the agent will name whichever one it is
-declining. They open together, though: the first task you sign off opens markup,
-utility classes and plain CSS for you at once, everywhere in the project, not just
-in the section you wrote.
+declining. They open together, though: the first task you sign off opens
+markup, utility classes and plain CSS for you at once, everywhere in the
+project, not just in the section you wrote.
 
 **Everything else you may ask the agent to help implement:**
 
-- Getting GitHub Pages turned on and working out why it is serving a blank page.
-- Anything git: branches, Pull Requests, review comments, merge conflicts, and
-  getting back work that looks lost.
+- Getting GitHub Pages turned on and working out why it is serving a blank
+  page.
+- Anything git: branches, Pull Requests, review comments, merge conflicts,
+  and getting back work that looks lost.
 - Your copy: headlines, section text, the words on the buttons.
 - Finding images, sizing them, writing their `alt` text.
 - Colour and type choices, and talking you out of the bad ones.
-- Reading your markup back to you and telling you what is wrong with it, whether
-  that is accessibility, heading order, or an element doing a job it was not made
-  for.
-- Explaining what any Tailwind class does, what a breakpoint prefix means, and
-  why one approach to a layout will fight you later.
+- Reading your markup back to you and telling you what is wrong with it,
+  whether that is accessibility, heading order, or an element doing a job it
+  was not made for.
+- Explaining what any Tailwind class does, what a breakpoint prefix means,
+  and why one approach to a layout will fight you later.
 - Your own notes, `PLAN.md` aside, and the presentation.
 
-**The agent waits to be asked.** It will not start building because a file is empty
-or because your plan is finished. None of this is a to-do list it works through on
-its own. Ask it for what you want. Before every code edit, it asks at least one
-question about your requested change and waits for your answer.
+**The agent waits to be asked.** It will not start building just because a
+file is empty or your plan is finished. This isn't a to-do list it works
+through on its own, so ask it for what you want. Before every code edit, it
+asks at least one question about your requested change and waits for your
+answer.
 
-Yes, this tells you exactly what you could paste into a browser chat instead. You
-are given the rule directly rather than fenced in by it. A rule you can read is
-one you can choose to follow.
+Yes, this tells you exactly what you could paste into a browser chat instead.
+You're given the rule directly rather than fenced in by it. A rule you can
+read is one you can choose to follow.
 
 ## Write it, commit it, explain it
 
@@ -159,21 +172,21 @@ When you have written one of the tasks marked in bold above:
 3. Explain it.  The agent asks what your commit does, then a few short questions.
 ```
 
-**Step 3 is the one worth having.** Explaining code you have just written is how
-you find out whether you understood it, and it works the same whether anyone is
-listening or not. Expect one question about what your commit does and up to three
-short follow-ups: more for a big commit, fewer for a small one. Nothing is graded
-and nothing you say is written down. The commit ahead of it in the history is
-already the record of who wrote what.
+**Step 3 is the one worth having.** Explaining code you have just written is
+how you find out whether you understood it, and that's true whether anyone is
+listening or not. Expect one question about what your commit does and up to
+three short follow-ups: more for a big commit, fewer for a small one. Nothing
+is graded and nothing you say is written down. The commit ahead of it in the
+history is already the record of who wrote what.
 
-**What changes afterwards.** Once you have written and explained one piece of a
-given kind of code, the agent will write that kind with you for the rest of the
-project, including in features that are nowhere in the requirements.
+**What changes afterwards.** Once you have written and explained one piece of
+a given kind of code, the agent will write that kind with you for the rest of
+the project, including in features that are nowhere in the requirements.
 
-Which of the tasks marked in bold you have done is kept in a small file under
-`.claude/harness/progress/`, filed under your git email. The agent writes it once
-you have explained your commit; you commit it like anything else. Ask it where you
-stand whenever you want to know.
+Which of the tasks marked in bold you have done is kept in a small file
+under `.claude/harness/progress/`, filed under your git email. The agent
+writes it once you have explained your commit, and you commit it like
+anything else. Ask it where you stand whenever you want to know.
 
 ### Signing your commits
 
@@ -183,41 +196,46 @@ stand whenever you want to know.
 Signed-off-by: Lea Müller <lea.mueller@example.com>
 ```
 
-It means **I wrote this code**. It is an ordinary git trailer and you will meet it
-in real projects. Nothing here checks it, and it is worth doing anyway. Use it on
-all of your own work, not only on the tasks marked in bold.
+It means **I wrote this code**. It is an ordinary git trailer and you will
+meet it in real projects. Nothing here checks it, and it is worth doing
+anyway. Use it on all of your own work, not only on the tasks marked in bold.
 
 When the agent wrote or helped write something, the commit carries a
-`Co-Authored-By: Claude …` line instead, which it adds itself. Between the two,
-`git log` shows who wrote what, which is more use to all of you than trying to
-remember in week three.
+`Co-Authored-By: Claude …` line instead, which it adds itself. Between the
+two, `git log` shows who wrote what, which is more use to all of you than
+trying to remember in week three.
 
 ### Reviewing a teammate's code counts
 
-If a teammate wrote one of their tasks, post a real review on their Pull Request
-and answer the agent's questions about their code, and the agent will write markup
-and utilities with you too, even after the PR has merged. Tell it which PR; it
-records the same way.
+If a teammate wrote one of their tasks, post a real review on their Pull
+Request and answer the agent's questions about their code, and the agent
+will write markup and utilities with you too, even after the PR has merged.
+Tell it which PR; it records the same way.
 
-It is capped: you can never have more reviewed tasks than written ones, so your
-first task is always written by you. Nobody can skip the writing, and everyone
-reads other parts of the project rather than only their own tasks.
+It is capped: you can never have more reviewed tasks than written ones, so
+your first task is always written by you. Nobody can skip the writing, and
+everyone reads other parts of the project rather than only their own tasks.
 
 ## Before any of that: `PLAN.md`
 
 **The agent writes no code for anyone in the group until `PLAN.md` exists and
-every member listed in it has at least one task.** Meet first, one call with one
-screen shared, and write it together.
+every member listed in it has at least one task.** Meet first, one call with
+one screen shared, and write it together.
 
-Two halves. First, a short restatement **in your own words**: what you are
-building, who uses it, and how much of it you are actually going to build. That
-means naming which parts are in and which you are leaving out on purpose. That
-last point is where two of you find out you pictured different amounts of work,
-so write down what you agree on.
+It has two halves:
 
-While you are all there, talk these four through **together**. Nobody is being put
-on the spot and there is no going round the room. They are here because they are
-the things a group usually discovers it disagreed about on day four:
+- A short restatement **in your own words** of what you are building, who
+  uses it, and how much of it you are actually going to build. Name which
+  parts are in and which you are leaving out on purpose. This is usually
+  where two of you find out you pictured different amounts of work, so write
+  down what you agree on.
+- The split: everyone's **git email** (the address `git config user.email`
+  prints), and each of you again on the task you took.
+
+While you are all there, talk these four through **together**. Nobody is
+being put on the spot and there is no going round the room. They are here
+because they are the things a group usually discovers it disagreed about on
+day four:
 
 - **How do you actually start mobile-first in Tailwind?** Which classes carry the
   phone layout, and which ones only come in at a breakpoint?
@@ -230,8 +248,7 @@ the things a group usually discovers it disagreed about on day four:
 
 Write down what you land on. It does not have to be right. It has to be shared.
 
-Then the split. Everyone's **git email**, the address `git config user.email`
-prints, and each of you again on the task you took:
+Here's what the split looks like written out:
 
 ```markdown
 ## Who's in the group
@@ -245,78 +262,84 @@ prints, and each of you again on the task you took:
 - Settings page (T2) — Mo Ahmadi
 ```
 
-That is the whole format. Use a list, a table, or prose, in German or English.
-Each of you has to appear twice: once in the member list with your **git** email,
-and again on the task you took. On the task line your name is enough. The address
-is needed once, because progress is filed under it.
+That's the whole format. Use a list, a table, or prose, in German or English.
+Each of you has to appear twice: once in the member list with your **git**
+email, and again on the task you took. On the task line your name is enough.
+The address is needed once, because progress is filed under it.
 
-Run `/onboard` and the agent will guide the conversation, point out unassigned
-parts and places where two of you will collide, and check the file. **It will not
-write a word of it.** `PLAN.md` is what the check reads, so an agent that could
-write it would clear its own way.
+Run `/onboard` and the agent will guide the conversation, point out
+unassigned parts and places where two of you will collide, and check the
+file. **It will not write a word of it.** `PLAN.md` is what the check reads,
+so an agent that could write it would clear its own way.
 
-**The check is live.** Edit `PLAN.md` so that someone has no task and the agent
-stops writing code for everyone until the line is fixed. There is nothing to
-re-run: it reads the file again on the next write. If someone has actually left the
-group, take them off the member list. That is the right answer, not a slight.
+**The check is live.** Edit `PLAN.md` so that someone has no task, and the
+agent stops writing code for everyone until the line is fixed. There is
+nothing to re-run: it reads the file again on the next write. If someone has
+actually left the group, take them off the member list. That's the right
+answer, not a slight.
 
-A sketch is enough and it is allowed to change. The question is whether you have a
-plan, never whether it was any good.
+A sketch is enough, and it is allowed to change. The question is whether you
+have a plan, never whether it was any good.
 
 ## Splitting the work
 
-`PLAN.md` is the snapshot from the kickoff. **From then on your tasks are GitHub
-Issues on your repo.** `/onboard` can create them from your task lines, or make
-them by hand. The issues are the live version and nothing syncs them back.
+`PLAN.md` is the snapshot from the kickoff. **From then on your tasks are
+GitHub Issues on your repo.** `/onboard` can create them from your task
+lines, or you can make them by hand. The issues are the live version, and
+nothing syncs them back.
 
-Write them yourselves either way. The agent will not give you a breakdown. Once
-you have a draft it will tell you if the load looks lopsided, if something is
-blocked on two other people, or if two of you are about to edit the same part of
-a file.
+Write them yourselves either way. The agent will not give you a breakdown.
+Once you have a draft, it will tell you if:
 
-That last one will happen. It is a single-page site, so all eight sections live in
-`index.html` and every one of you is editing that file all week. This is the
-project in the whole course most likely to give you merge conflicts, and there is
-no arrangement of the work that designs them away. Keep your sections in the order
-the page has them, pull `main` before you start and again before you open the PR,
-and expect to meet in the middle of that file anyway. Resolve them together; that
-is the point.
+- the load looks lopsided
+- something is blocked on two other people
+- two of you are about to edit the same part of a file
 
-Ask for help if you are stuck for more than 30 minutes. Use the daily stand-ups.
+That last one will happen. It's a single-page site, so all eight sections
+live in `index.html` and every one of you is editing that file all week.
+This is the project in the whole course most likely to give you merge
+conflicts, and there is no arrangement of the work that designs them away.
+Keep your sections in the order the page has them, pull `main` before you
+start and again before you open the PR, and expect to meet in the middle of
+that file anyway. Resolve them together; that's the point.
+
+Ask for help if you are stuck for more than 30 minutes. Use the daily
+stand-ups.
 
 ## Running it
 
-Open **this folder** in VS Code and start Claude Code from the repo root. Starting
-it from a subfolder silently drops this folder's settings, which mostly means the
-agent starts writing code it should be helping you write.
-
-Your progress is filed under your git email, so set it once and use the same one on
-every machine you work from. Otherwise the work you did in the lab and the work you
-did at home end up in two separate records, and neither counts for the other.
-
-**If you want the agent to talk differently**, with simpler language, shorter
-answers, or more or less detail, say so, and ask it to save that as a personal
-skill in `~/.claude/skills/`. It travels with you to the next project, so you only
-have to ask once. It changes how the agent talks, not which code you must write
-yourself.
-
-Inline suggestions (Copilot-style ghost text) are turned off for this folder in
-`.vscode/settings.json`. That file is read-only, and the agent cannot write to it.
-Otherwise it could restore ghost text in a single edit, and ghost text is the one
-form of help that arrives without being asked.
+- Open **this folder** in VS Code and start Claude Code from the repo root.
+  Starting it from a subfolder silently drops this folder's settings, which
+  mostly means the agent starts writing code it should be helping you write.
+- Your progress is filed under your git email, so set it once and use the
+  same one on every machine you work from. Otherwise the work you did in the
+  lab and the work you did at home end up in two separate records, and
+  neither counts for the other.
+- **If you want the agent to talk differently**, with simpler language,
+  shorter answers, or more or less detail, say so, and ask it to save that as
+  a personal skill in `~/.claude/skills/`. It travels with you to the next
+  project, so you only have to ask once. It changes how the agent talks, not
+  which code you must write yourself.
+- Inline suggestions (Copilot-style ghost text) are turned off for this
+  folder in `.vscode/settings.json`. That file is read-only, and the agent
+  cannot write to it. Otherwise it could restore ghost text in a single
+  edit, and ghost text is the one form of help that arrives without being
+  asked.
 
 **This file is read-only too**, along with `CLAUDE.md`. This page is the
-requirements: it tells the agent which code you must write and where it may help
-after you ask, so it is not a page the agent gets to reword.
-`PLAN.md` is read-only to the agent as well, for a different reason: it is yours,
-and it is what the check reads. Your own writing about your project goes in files
-you make, whether that is `PLAN.md`, your Issues, or anything else you want.
+requirements: it tells the agent which code you must write and where it may
+help after you ask, so it is not a page the agent gets to reword. `PLAN.md`
+is read-only to the agent as well, for a different reason: it is yours, and
+it is what the check reads. Your own writing about your project goes in
+files you make, whether that's `PLAN.md`, your Issues, or anything else you
+want.
 
-If you think a requirement is wrong or unclear, say so to your instructor. That is
-a conversation, not a diff.
+If you think a requirement is wrong or unclear, say so to your instructor.
+That's a conversation, not a diff.
 
-None of these locks is a cage, and you should know that up front. Read-only here
-means VS Code rejects typing in those buffers, there is a setting to change that,
-and you can use other editors. But none of it can happen quietly. Every file
-named above is committed, so any change lands in your PR with your name on it.
-That is the mechanism: not "you cannot", but "it is visible".
+None of these locks is a cage, and you should know that up front. Read-only
+here means VS Code rejects typing in those buffers, there is a setting to
+change that, and you can use other editors. But none of it can happen
+quietly. Every file named above is committed, so any change lands in your PR
+with your name on it. That's the mechanism: not "you cannot", but "it is
+visible".
